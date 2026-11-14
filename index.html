@@ -175,15 +175,15 @@ $("nav").innerHTML=[["today","Vandaag","home"],["well","Welzijn","dumb"],["cyc",
 const o=UI.cf?vComfort():UI.ph?vPhone():"";$("ov").className="ov"+(UI.cf?" cf":"");$("ov").innerHTML=o;$("ov").hidden=!o}
 /* bloemen */
 const FL='<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="#f4c2d1">'+[0,72,144,216,288].map(a=>`<ellipse cx="12" cy="6.4" rx="3.6" ry="4.8" transform="rotate(${a} 12 12)"/>`).join("")+'</g><circle cx="12" cy="12" r="2.6" fill="#fbe6c8"/></svg>';
-function bloom(n=16){if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;const r=(a,b)=>a+Math.random()*(b-a);
-for(let i=0;i<n;i++){const e=document.createElement("span"),z=r(16,34);e.className="fl";e.innerHTML=FL;e.style.cssText=`left:${r(0,94)}%;width:${z}px;height:${z}px;animation-duration:${r(5,9)}s;animation-delay:${r(0,1.8)}s;--dx:${r(-70,70)}px;--rt:${r(-200,200)}deg`;document.body.appendChild(e);setTimeout(()=>e.remove(),12500)}}
+function bloom(n=22){if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;const r=(a,b)=>a+Math.random()*(b-a);
+for(let i=0;i<n;i++){const e=document.createElement("span"),z=r(16,34);e.className="fl";e.innerHTML=FL;e.style.cssText=`left:${r(0,94)}%;width:${z}px;height:${z}px;animation-duration:${r(7,11)}s;animation-delay:${r(0,2.4)}s;--dx:${r(-70,70)}px;--rt:${r(-200,200)}deg`;document.body.appendChild(e);setTimeout(()=>e.remove(),15000)}}
 /* vergrendeling */
 const enc=new TextEncoder(),hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join(""),unhex=h=>new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));
 async function kd(pin,salt){const k=await crypto.subtle.importKey("raw",enc.encode(pin),"PBKDF2",false,["deriveBits"]);return hex(await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations:150000,hash:"SHA-256"},k,256))}
 async function chk(pin){const L=JSON.parse(localStorage.getItem(LOCK)||"null");return!!L&&await kd(pin,unhex(L.s))===L.h}
 let locked=!!localStorage.getItem(LOCK),hid=0;
 function lkR(){$("lk").hidden=!locked;$("lk").innerHTML=locked?`<h2 style="margin-top:80px;font-size:28px;text-align:center">${esc(CFG.name)}</h2><p class="muted" style="text-align:center">Vul je PIN in</p><input id="pn" type="password" inputmode="numeric" maxlength="8" autocomplete="off" style="text-align:center;font-size:22px" aria-label="PIN"><p class="muted" style="text-align:center">${UI.lkE||""}</p><button class="btn" data-a="unlock">Openen</button>`:""}
-document.addEventListener("visibilitychange",()=>{if(document.hidden)hid=Date.now();else if(localStorage.getItem(LOCK)&&Date.now()-hid>(S.idle||0)*6e4){locked=true;lkR()}else if(!locked){R();if(Date.now()-hid>3e4)bloom(10)}});
+document.addEventListener("visibilitychange",()=>{if(document.hidden)hid=Date.now();else if(localStorage.getItem(LOCK)&&Date.now()-hid>(S.idle||0)*6e4){locked=true;lkR()}else if(!locked){R();if(Date.now()-hid>3e4)bloom(14)}});
 /* acties */
 const tog=d=>{if(S.pill[d])delete S.pill[d];else S.pill[d]=1};
 function addStart(ds){if(!ds||P(ds)>T())return notice("Kies een datum in het verleden of vandaag.");if(!S.starts.includes(ds))S.starts.push(ds);S.starts.sort()}
