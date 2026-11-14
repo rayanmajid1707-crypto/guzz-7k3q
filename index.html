@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Guzem</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#fff4f6">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Guzem">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:wght@600;700&display=swap">
+<style>
+:root{--bg:#fff4f6;--card:#fff;--ac:#f4b6c6;--ad:#e08aa3;--be:#f3e6d8;--tx:#4a3b3f;--mu:#9a8588;--ln:#f1e5dd}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 "Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+body{max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 18px) 16px calc(env(safe-area-inset-bottom,0px) + 100px)}
+h1,h2{font-family:"Newsreader",Georgia,"Times New Roman",serif;letter-spacing:-.01em}
+h1{font-size:28px;line-height:1.1;margin:2px 0 0;font-weight:700}
+h2{font-size:19px;margin:0 0 12px;font-weight:700}
+.date{color:var(--mu);font-size:13px;text-transform:capitalize}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:22px;padding:18px;margin:14px 0}
+.muted{color:var(--mu);font-size:13px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.tile{border:0;text-align:left;border-radius:18px;padding:14px;font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--ln)}
+.tile .v{font-size:26px;font-weight:800;color:var(--ad);margin-top:2px}
+.tile.done{background:var(--ac);border-color:var(--ad)}.tile.done .v,.tile.done .muted{color:#fff}
+.btn{width:100%;border:0;border-radius:16px;padding:15px;font:inherit;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--ac),var(--ad))}
+.btn:active,.tile:active,.sos:active,.chip:active{transform:scale(.96)}
+.sm{border:0;border-radius:14px;padding:12px 15px;font:inherit;font-weight:700;background:var(--be);color:var(--tx);text-decoration:none;display:inline-block;text-align:center}
+.row{display:flex;gap:8px;margin-top:10px}
+input{flex:1;min-width:0;border:2px solid var(--be);border-radius:14px;padding:12px;font:inherit;color:var(--tx);background:#fff}
+.mood{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.mood button{flex:1 1 28%;border:2px solid transparent;border-radius:14px;background:var(--be);font:inherit;font-weight:700;font-size:14px;color:var(--tx);padding:10px 0}
+.mood button.on{border-color:var(--ad);background:#fde4ea}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{border:2px solid var(--be);background:#fff;color:var(--tx);border-radius:999px;padding:8px 13px;font:inherit;font-size:14px;font-weight:700}
+.chip.on{background:var(--ac);border-color:var(--ad);color:#fff}
+.bar{height:12px;background:var(--be);border-radius:9px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ad));border-radius:9px;transition:width .4s}
+.step{display:flex;align-items:center;justify-content:space-between}
+.step div{display:flex;align-items:center;gap:14px;font-weight:800;font-size:20px}
+.step button{width:38px;height:38px;border-radius:50%;border:0;background:var(--be);font-size:20px;font-weight:800;color:var(--tx)}
+.item{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;border-bottom:1px solid var(--ln)}
+.item:last-child{border:0}
+.item button{border:0;background:none;color:var(--mu);font-size:18px}
+.water{display:flex;flex-wrap:wrap;gap:6px}
+.water button{border:0;background:none;font-size:30px;opacity:.22;padding:2px}
+.water button.on{opacity:1}
+.ring{position:relative;width:170px;height:170px;margin:0 auto 8px}
+.ring svg{transform:rotate(-90deg)}
+.ring div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring b{font-size:50px;line-height:1;color:var(--ad)}
+.next{display:flex;justify-content:space-around;background:var(--be);border-radius:16px;padding:10px;text-align:center;margin-top:10px}
+.next b{display:block;font-size:16px}
+.pills{display:flex;justify-content:space-between}
+.pills button{border:0;background:none;font:inherit;color:var(--mu);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.pills i{width:34px;height:34px;border-radius:50%;background:var(--be);display:flex;align-items:center;justify-content:center;font-style:normal;color:#fff;font-size:16px}
+.pills .on i{background:var(--ad)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal .w{font-size:11px;color:var(--mu);font-weight:700}
+.cal .d{aspect-ratio:1;border-radius:11px;font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.cal .d b{font-size:14px;font-weight:400;height:16px}
+.cal .p{background:#fde4ea;color:var(--ad);font-weight:800}
+.cal .t{outline:2px solid var(--ad)}.cal .s{box-shadow:inset 0 0 0 2px var(--tx)}
+.calh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.calh h2{margin:0;text-transform:capitalize}
+.calh button{border:0;background:var(--be);border-radius:50%;width:34px;height:34px;color:var(--tx)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sos{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-decoration:none;color:var(--tx);border-radius:20px;padding:18px 8px;font-weight:800;font-size:15px;min-height:84px;text-align:center;border:1px solid var(--ln)}
+.sos:nth-child(4n+1){background:#fde4ea}.sos:nth-child(4n+2){background:#f8ecdd}.sos:nth-child(4n+3){background:#fde9f1}.sos:nth-child(4n){background:#f3eadf}
+.link{background:none;border:0;color:var(--mu);font:inherit;text-decoration:underline;width:100%;margin-top:12px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--ln);padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px);z-index:5}
+nav button{flex:1;max-width:110px;border:0;background:none;font:inherit;font-size:11px;font-weight:700;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0}
+nav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--ad)}
+.h{position:fixed;bottom:-40px;pointer-events:none;z-index:20;animation:up 2.6s ease-in forwards}
+@keyframes up{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.h{display:none}}
+.sheet{position:fixed;inset:0;background:rgba(74,59,63,.4);display:none;align-items:flex-end;z-index:30}.sheet.open{display:flex}
+.panel{background:#fff;width:100%;max-width:480px;margin:0 auto;border-radius:24px 24px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom,0px) + 22px)}
+textarea{width:100%;border:2px solid var(--be);border-radius:14px;padding:10px;font:inherit;font-size:12px;color:var(--tx)}
+</style>
+</head>
+<body>
+<header><div class="date" id="hd"></div><h1 id="title"></h1></header>
+
+<main class="tab on" id="home">
+  <div class="tiles">
+    <button class="tile" id="tPill"><div class="muted">Pil</div><div class="v" id="vPill">–</div><div class="muted" id="sPill"></div></button>
+    <button class="tile" id="tWater"><div class="muted">Water</div><div class="v" id="vWater">–</div><div class="muted">drinkbussen vandaag</div></button>
+    <button class="tile" id="tWeek"><div class="muted">Workouts</div><div class="v" id="vWeek">–</div><div class="muted">deze week</div></button>
+    <button class="tile" id="tCyc"><div class="muted">Cyclusdag</div><div class="v" id="vCyc">–</div><div class="muted" id="sCyc"></div></button>
+  </div>
+  <section class="card">
+    <h2>Hoe voel je je vandaag?</h2>
+    <div class="mood" id="mood"></div>
+    <div class="chips" id="chips"></div>
+    <a class="sm" id="sendCheck" style="width:100%">Stuur mijn check-in naar hem</a>
+  </section>
+</main>
+
+<main class="tab" id="gym">
+  <section class="card">
+    <h2>Weekdoel</h2>
+    <div class="bar"><i id="gProg"></i></div>
+    <div class="muted" id="gTxt"></div>
+    <div class="step" style="margin-top:12px"><span>Doel per week</span><div><button id="gm">−</button><span id="goal">3</span><button id="gp">+</button></div></div>
+  </section>
+  <section class="card">
+    <h2>Workout loggen</h2>
+    <div class="chips" id="gTypes"></div>
+    <div class="row" style="margin-top:0"><input id="gMin" type="number" inputmode="numeric" placeholder="Minuten (optioneel)"><button class="sm" id="gAdd">Opslaan</button></div>
+    <div id="gList" style="margin-top:8px"></div>
+  </section>
+  <section class="card">
+    <h2>Water</h2>
+    <div style="display:flex;align-items:baseline;gap:8px"><b style="font-size:28px;color:var(--ad)" id="wBig">0</b><span class="muted" id="wSub"></span></div>
+    <div class="bar"><i id="wBar"></i></div>
+    <div class="row"><button class="sm" id="wMin" style="flex:1">− 1 drinkbus</button><button class="btn" id="wPlus" style="flex:1;margin:0">+ 1 drinkbus</button></div>
+    <button class="link" id="wReset">Vandaag terugzetten op 0</button>
+  </section>
+  <section class="card">
+    <h2>Gewicht</h2>
+    <div style="display:flex;align-items:baseline;gap:10px"><b style="font-size:28px;color:var(--ad)" id="wNow">–</b><span class="muted" id="wDiff"></span></div>
+    <div id="wSpark"></div>
+    <div class="row"><input id="wIn" type="text" inputmode="decimal" placeholder="Gewicht in kg"><button class="sm" id="wAdd">Opslaan</button></div>
+  </section>
+</main>
+
+<main class="tab" id="cyc">
+  <section class="card">
+    <div class="ring">
+      <svg width="170" height="170" viewBox="0 0 210 210"><circle cx="105" cy="105" r="92" fill="none" stroke="#f3e6d8" stroke-width="16"/><circle id="prog" cx="105" cy="105" r="92" fill="none" stroke="url(#g)" stroke-width="16" stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="578"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4b6c6"/><stop offset="1" stop-color="#e08aa3"/></linearGradient></defs></svg>
+      <div><b id="day">–</b><span class="muted">cyclusdag</span></div>
+    </div>
+    <div style="text-align:center;font-weight:700" id="phase"></div>
+    <div class="next"><div><b id="nDate">–</b><span class="muted">volgende menstruatie</span></div><div><b id="nIn">–</b><span class="muted">over</span></div></div>
+    <button class="btn" id="start" style="margin-top:12px">Mijn menstruatie is vandaag begonnen</button>
+    <div class="row"><input type="date" id="eDate"><button class="sm" id="eBtn">Opslaan</button></div>
+    <div class="muted" style="text-align:center;margin-top:8px" id="hist"></div>
+  </section>
+  <section class="card">
+    <h2>Pil, laatste 7 dagen</h2>
+    <div class="pills" id="pills"></div>
+  </section>
+  <section class="card">
+    <div class="calh"><button id="pv">‹</button><h2 id="mT"></h2><button id="nx">›</button></div>
+    <div class="cal" id="cal"></div>
+    <div class="muted" id="dInfo" style="margin-top:10px;text-align:center">Tik op een dag voor je check-in.</div>
+  </section>
+  <section class="card">
+    <div class="step"><span>Gemiddelde cyclus (dagen)</span><div><button id="lm">−</button><span id="len">28</span><button id="lp">+</button></div></div>
+    <button class="link" id="undo">Laatste startdatum verwijderen</button>
+  </section>
+</main>
+
+<main class="tab" id="rem">
+  <h2 style="margin-top:16px">what ya need?</h2>
+  <section class="grid" id="sos"></section>
+  <section class="card">
+    <h2>Mijn wensenlijstje</h2>
+    <div class="row" style="margin-top:0"><input id="wishIn" placeholder="Bijv. chocolade, thee, film..."><button class="sm" id="wishAdd">+</button></div>
+    <div id="wishes"></div>
+    <a class="sm" id="sendWish" style="width:100%;margin-top:10px">Stuur lijstje naar hem</a>
+  </section>
+  <section class="card"><h2>Instellingen</h2>
+    <div class="item"><span>WhatsApp-nummer<br><span class="muted" id="phShow"></span></span><button class="sm" id="phChange">Wijzigen</button></div>
+    <h2 style="margin-top:16px;font-size:16px">Back-up</h2>
+    <textarea id="bk" rows="3" placeholder="Maak een back-up, of plak hier een back-up om te herstellen"></textarea>
+    <div class="row"><button class="sm" id="bkMake" style="flex:1">Back-up maken</button><button class="sm" id="bkRestore" style="flex:1">Herstellen</button></div>
+  </section>
+</main>
+
+<div class="sheet" id="setup"><div class="panel"><h2>WhatsApp-nummer</h2><p class="muted">Naar welk nummer sturen de knoppen? Het wordt alleen op dit toestel bewaard.</p><div class="row"><input id="phIn" type="tel" inputmode="tel" placeholder="0470 12 34 56"><button class="sm" id="phSave">Opslaan</button></div><div class="muted" id="phErr" style="margin-top:8px"></div></div></div>
+<nav>
+  <button class="on" data-t="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Vandaag</button>
+  <button data-t="gym"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>Gym</button>
+  <button data-t="cyc"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Cyclus</button>
+  <button data-t="rem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Remote</button>
+</nav>
+
+<script>
+/* ====== CONFIG ====== */
+const CONFIG = {
+  appName: "Guzem benim's remote",
+  shortName: "Guzem",
+  colors: { bg:"#fff4f6", accent:"#f4b6c6", accentDark:"#e08aa3", beige:"#f3e6d8", text:"#4a3b3f" },
+  buttons: [
+    { label:"Buikpijn / Krampen", msg:"Schat, ik heb last van krampen (kmoet lowkey kaka doen), kun je een kruik of pijnstiller voor brengen? 🥺" },
+    { label:"Honger / Cravings",  msg:"rat je bent zo een dikzak da ik nu ook honger heb gekregen :) 🍫🍕" },
+    { label:"mo nodig",           msg:"mo ik wil u nu echt, waarom zijn we nog ni getrouwd, allemaal door jou:( 🫂" },
+    { label:"lowkey closing my eyes", msg:"rat, ik ga ni slapen ma mijn ogen gewoon rusten okkii 😴" },
+    { label:"kruik pls",          msg:"rat maak ne kruik voor mij pls, mijn buik doet zeer 🌡️🥺" },
+    { label:"thee bro",           msg:"kunde gij thee maken voor mij? 🍵🥺" },
+    { label:"film?",              msg:"rat zin in filmavond met snacks? 🎬🍿" },
+    { label:"ik ben emotioneel",  msg:"ik ben vandaag extra emotioneel, wees een beetje lief tegen mij 🥺💗" }
+  ],
+  moods: ["Goed","Lief","Meh","Verdrietig","Boos","Moe"],
+  symptoms: ["Krampen","Hoofdpijn","Rugpijn","Opgeblazen","Misselijk","Gevoelige borsten","Acne","Emotioneel","Zin in zoet"],
+  gymTypes: ["Kracht","Cardio","Benen","Billen","Buik","Yoga","Wandelen"],
+  bottleGoal: 2,      // aantal drinkbussen per dag
+  bottleMl: 750       // inhoud van haar drinkbus in ml
+};
+/* ===================== */
+
+const $ = i => document.getElementById(i), D = 864e5, K = "cyclus-app-v1";
+let S = { starts:[], len:28, logs:{}, wishes:[], gym:[], weights:[], water:{}, bottles:{}, pill:{}, goal:3, phone:"" };
+try { Object.assign(S, JSON.parse(localStorage.getItem(K) || "{}")); } catch(e){}
+const save = () => { try { localStorage.setItem(K, JSON.stringify(S)); } catch(e){} };
+const P = s => { const [a,b,c] = s.split("-").map(Number); return new Date(a, b-1, c, 12); };
+const I = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const T = () => { const t = new Date(); t.setHours(12,0,0,0); return t; };
+const tdy = () => I(T());
+const F = d => d.toLocaleDateString("nl-BE", { weekday:"short", day:"numeric", month:"short" });
+const wa = t => "https://wa.me/" + (S.phone || "") + "?text=" + encodeURIComponent(t);
+
+const rs = document.documentElement.style, c = CONFIG.colors;
+rs.setProperty("--bg",c.bg); rs.setProperty("--ac",c.accent); rs.setProperty("--ad",c.accentDark); rs.setProperty("--be",c.beige); rs.setProperty("--tx",c.text);
+document.querySelector('meta[name="theme-color"]').content = c.bg;
+document.title = CONFIG.shortName;
+document.querySelector('meta[name="apple-mobile-web-app-title"]').content = CONFIG.shortName;
+$("title").textContent = CONFIG.appName;
+
+function hearts(){}
+
+/* tabs */
+function go(t){
+  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("on", x.dataset.t === t));
+  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x.id === t));
+  scrollTo(0,0);
+}
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => go(b.dataset.t));
+
+/* pil */
+const streak = () => { let n = 0, d = T(); if (!S.pill[I(d)]) d = new Date(d - D); while (S.pill[I(d)]){ n++; d = new Date(d - D); } return n; };
+function togglePill(ds){ if (S.pill[ds]) delete S.pill[ds]; else { S.pill[ds] = 1; hearts(6); } save(); render(); }
+$("tPill").onclick = () => togglePill(tdy());
+
+/* water */
+const wN = () => S.bottles[tdy()] || 0;
+const wSet = n => { S.bottles[tdy()] = Math.max(0, Math.min(20, n)); save(); render(); };
+$("tWater").onclick = () => wSet(wN() + 1);
+$("wPlus").onclick = () => wSet(wN() + 1);
+$("wMin").onclick = () => wSet(wN() - 1);
+$("wReset").onclick = () => wSet(0);
+
+/* gym */
+let gType = "";
+const wkStart = () => { const d = T(); d.setDate(d.getDate() - ((d.getDay()+6)%7)); return I(d); };
+const wkN = () => S.gym.filter(g => g.d >= wkStart()).length;
+$("gTypes").innerHTML = CONFIG.gymTypes.map(t => `<button class="chip" data-t="${t}">${t}</button>`).join("");
+$("gTypes").onclick = e => { const b = e.target.closest("button"); if (!b) return; gType = gType === b.dataset.t ? "" : b.dataset.t; rGym(); };
+$("gAdd").onclick = () => {
+  if (!gType) { gType = CONFIG.gymTypes[0]; }
+  S.gym.push({ d:tdy(), t:gType, m:parseInt($("gMin").value) || 0 });
+  $("gMin").value = ""; gType = ""; save(); render(); hearts(10);
+};
+$("gm").onclick = () => { S.goal = Math.max(1, S.goal-1); save(); render(); };
+$("gp").onclick = () => { S.goal = Math.min(7, S.goal+1); save(); render(); };
+$("gList").onclick = e => { const b = e.target.closest("button"); if (!b) return; S.gym.splice(+b.dataset.i, 1); save(); render(); };
+$("wAdd").onclick = () => {
+  const v = parseFloat($("wIn").value.replace(",", "."));
+  if (!v || v < 20 || v > 300) return;
+  S.weights = S.weights.filter(w => w.d !== tdy()); S.weights.push({ d:tdy(), kg:v });
+  S.weights.sort((a,b) => a.d < b.d ? -1 : 1); $("wIn").value = ""; save(); render();
+};
+function spark(a){
+  if (a.length < 2) return "";
+  const v = a.map(x => x.kg), mn = Math.min(...v), mx = Math.max(...v), r = mx - mn || 1;
+  return `<svg viewBox="0 0 200 50" width="100%" height="50" preserveAspectRatio="none"><polyline fill="none" stroke="var(--ad)" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" points="${v.map((y,i) => (i/(v.length-1)*196+2).toFixed(1)+","+(46-(y-mn)/r*42).toFixed(1)).join(" ")}"/></svg>`;
+}
+function rGym(){
+  const w = wkN(), g = S.goal;
+  $("gProg").style.width = Math.min(100, w/g*100) + "%";
+  $("gTxt").textContent = w + " van " + g + " workouts deze week" + (w >= g ? " · doel gehaald" : "");
+  $("goal").textContent = g;
+  document.querySelectorAll("#gTypes button").forEach(b => b.classList.toggle("on", b.dataset.t === gType));
+  const list = S.gym.map((x,i) => ({ x, i })).slice(-6).reverse();
+  $("gList").innerHTML = list.length ? list.map(o => `<div class="item"><span>${o.x.t}${o.x.m ? " · " + o.x.m + " min" : ""}<br><span class="muted">${F(P(o.x.d))}</span></span><button data-i="${o.i}" aria-label="Verwijder">✕</button></div>`).join("") : `<div class="muted">Nog geen workouts. Kies een type en sla je eerste op.</div>`;
+  const n = wN(), L = (n*CONFIG.bottleMl/1000).toFixed(1).replace(".", ",");
+  $("wBig").textContent = n + " / " + CONFIG.bottleGoal; $("wSub").textContent = "drinkbussen · " + L + " liter";
+  $("wBar").style.width = Math.min(100, n/CONFIG.bottleGoal*100) + "%";
+  const ws = S.weights, last = ws[ws.length-1];
+  $("wNow").textContent = last ? last.kg.toFixed(1).replace(".", ",") + " kg" : "–";
+  const df = ws.length > 1 ? last.kg - ws[ws.length-2].kg : 0;
+  $("wDiff").textContent = ws.length > 1 ? (df > 0 ? "+" : "") + df.toFixed(1).replace(".", ",") + " kg sinds vorige keer" : "Voeg je eerste meting toe";
+  $("wSpark").innerHTML = spark(ws.slice(-12));
+}
+
+/* cyclus */
+function rCyc(){
+  $("eDate").max = tdy(); $("len").textContent = S.len;
+  const last = S.starts.length ? P(S.starts[S.starts.length-1]) : null;
+  let day = "–", ph = "Tik hieronder om te starten", nd = "–", ni = "–", off = 578, hs = "";
+  if (last){
+    const d = Math.round((T() - last)/D) + 1, nx = new Date(last.getTime() + S.len*D), left = Math.round((nx - T())/D);
+    day = d;
+    ph = d <= 5 ? "Menstruatie" : d < S.len-16 ? "Opbouwfase" : d <= S.len-12 ? "Vruchtbare periode (schatting)" : "Rustige fase";
+    nd = F(nx);
+    ni = left > 1 ? left + " dagen" : left === 1 ? "morgen" : left === 0 ? "vandaag" : Math.abs(left) + (Math.abs(left) === 1 ? " dag te laat" : " dagen te laat");
+    off = 578 * (1 - Math.min(d/S.len, 1)); hs = "Laatste start: " + F(last);
+  }
+  $("day").textContent = day; $("phase").textContent = ph; $("nDate").textContent = nd; $("nIn").textContent = ni;
+  $("prog").style.strokeDashoffset = off; $("hist").textContent = hs;
+  $("pills").innerHTML = [6,5,4,3,2,1,0].map(k => { const d = new Date(T() - k*D), s = I(d);
+    return `<button class="${S.pill[s] ? "on" : ""}" data-d="${s}"><i>${S.pill[s] ? "✓" : ""}</i>${d.toLocaleDateString("nl-BE", { weekday:"short" }).slice(0,2)}</button>`; }).join("");
+  rCal();
+}
+$("pills").onclick = e => { const b = e.target.closest("button"); if (b) togglePill(b.dataset.d); };
+function addStart(ds){
+  if (!ds || P(ds) > T()) return;
+  if (!S.starts.includes(ds)) S.starts.push(ds);
+  S.starts.sort(); save(); render(); hearts(12);
+}
+$("start").onclick = () => addStart(tdy());
+$("eBtn").onclick = () => { addStart($("eDate").value); $("eDate").value = ""; };
+$("lm").onclick = () => { S.len = Math.max(20, S.len-1); save(); render(); };
+$("lp").onclick = () => { S.len = Math.min(45, S.len+1); save(); render(); };
+$("undo").onclick = () => { S.starts.pop(); save(); render(); };
+
+/* check-in (vandaag) */
+const cur = () => S.logs[tdy()] || { m:"", s:[] };
+function setLog(fn){ const l = cur(); fn(l); S.logs[tdy()] = l; save(); render(); hearts(5); }
+$("mood").innerHTML = CONFIG.moods.map(m => `<button data-m="${m}">${m}</button>`).join("");
+$("chips").innerHTML = CONFIG.symptoms.map(s => `<button class="chip" data-s="${s}">${s}</button>`).join("");
+$("mood").onclick = e => { const b = e.target.closest("button"); if (b) setLog(l => l.m = l.m === b.dataset.m ? "" : b.dataset.m); };
+$("chips").onclick = e => { const b = e.target.closest("button"); if (b) setLog(l => { const i = l.s.indexOf(b.dataset.s); i < 0 ? l.s.push(b.dataset.s) : l.s.splice(i,1); }); };
+function rHome(){
+  const l = cur(), n = wN(), k = streak(), last = S.starts.length ? P(S.starts[S.starts.length-1]) : null, took = !!S.pill[tdy()];
+  $("hd").textContent = T().toLocaleDateString("nl-BE", { weekday:"long", day:"numeric", month:"long" });
+  $("tPill").classList.toggle("done", took);
+  $("vPill").textContent = took ? "Genomen" : "Nog niet";
+  $("sPill").textContent = k ? k + " dagen op rij" : "tik als je hem hebt genomen";
+  $("vWater").textContent = n + " / " + CONFIG.bottleGoal;
+  $("vWeek").textContent = wkN() + " / " + S.goal;
+  $("vCyc").textContent = last ? Math.round((T() - last)/D) + 1 : "–";
+  $("sCyc").textContent = last ? "" : "nog niet gestart";
+  document.querySelectorAll("#mood button").forEach(b => b.classList.toggle("on", b.dataset.m === l.m));
+  document.querySelectorAll("#chips button").forEach(b => b.classList.toggle("on", l.s.includes(b.dataset.s)));
+  let t = "Check-in: ik wil even laten weten hoe het gaat";
+  if (l.m || l.s.length) t = "Mijn check-in van vandaag: " + (l.m ? "ik voel me " + l.m.toLowerCase() + ". " : "") + (l.s.length ? "Last van: " + l.s.join(", ").toLowerCase() + ". " : "");
+  $("sendCheck").href = wa(t);
+}
+$("tWeek").onclick = () => go("gym");
+$("tCyc").onclick = () => go("cyc");
+
+/* kalender */
+let vy = new Date().getFullYear(), vm = new Date().getMonth(), sel = tdy();
+$("pv").onclick = () => { if (--vm < 0) { vm = 11; vy--; } rCal(); };
+$("nx").onclick = () => { if (++vm > 11) { vm = 0; vy++; } rCal(); };
+function rCal(){
+  $("mT").textContent = new Date(vy, vm, 1).toLocaleDateString("nl-BE", { month:"long", year:"numeric" });
+  const off = (new Date(vy, vm, 1).getDay() + 6) % 7, n = new Date(vy, vm+1, 0).getDate();
+  let h = ["Ma","Di","Wo","Do","Vr","Za","Zo"].map(x => `<div class="w">${x}</div>`).join("");
+  for (let i=0;i<off;i++) h += "<div></div>";
+  for (let d=1; d<=n; d++){
+    const ds = I(new Date(vy, vm, d, 12)), l = S.logs[ds];
+    const per = S.starts.some(s => { const k = Math.round((P(ds) - P(s))/D); return k >= 0 && k < 5; });
+    h += `<div class="d${per ? " p" : ""}${ds === tdy() ? " t" : ""}${ds === sel ? " s" : ""}" data-d="${ds}">${d}<b>${l && l.m ? "•" : ""}</b></div>`;
+  }
+  $("cal").innerHTML = h;
+  const l = S.logs[sel];
+  $("dInfo").textContent = F(P(sel)) + ": " + (l && (l.m || l.s.length) ? (l.m || "") + " " + l.s.join(", ").toLowerCase() : "geen check-in");
+}
+$("cal").onclick = e => { const d = e.target.closest("[data-d]"); if (d){ sel = d.dataset.d; rCal(); } };
+
+/* remote + wensenlijstje */
+const rSos = () => { $("sos").innerHTML = CONFIG.buttons.map(b => `<a class="sos" href="${wa(b.msg)}">${b.label}</a>`).join(""); };
+function rWish(){
+  const box = $("wishes"); box.innerHTML = "";
+  S.wishes.forEach((w, i) => {
+    const row = document.createElement("div"); row.className = "item";
+    const s = document.createElement("span"); s.textContent = w;
+    const b = document.createElement("button"); b.textContent = "✕"; b.setAttribute("aria-label", "Verwijder");
+    b.onclick = () => { S.wishes.splice(i,1); save(); rWish(); };
+    row.append(s, b); box.appendChild(row);
+  });
+  $("sendWish").style.display = S.wishes.length ? "block" : "none";
+  $("sendWish").href = wa("Mijn wensenlijstje: " + S.wishes.join(", "));
+}
+function addWish(){ const v = $("wishIn").value.trim(); if (!v) return; S.wishes.push(v); $("wishIn").value = ""; save(); rWish(); }
+$("wishAdd").onclick = addWish;
+$("wishIn").onkeydown = e => { if (e.key === "Enter") addWish(); };
+
+
+const normPhone = v => { let d = v.replace(/\D/g, ""); if (d.startsWith("00")) d = d.slice(2); else if (d.startsWith("0")) d = "32" + d.slice(1); return d.length >= 10 && d.length <= 15 ? d : ""; };
+function askPhone(){ $("phIn").value = S.phone ? "+" + S.phone : ""; $("phErr").textContent = ""; $("setup").classList.add("open"); }
+$("phChange").onclick = askPhone;
+$("phSave").onclick = () => { const n = normPhone($("phIn").value); if (!n){ $("phErr").textContent = "Dat nummer lijkt niet te kloppen."; return; } S.phone = n; save(); $("setup").classList.remove("open"); render(); };
+$("bkMake").onclick = () => { const t = JSON.stringify(S); $("bk").value = t; $("bk").select(); try { navigator.clipboard.writeText(t); } catch(e){} };
+$("bkRestore").onclick = () => { try { const o = JSON.parse($("bk").value); if (!o || typeof o !== "object") throw 0; if (!confirm("Alle huidige gegevens vervangen door deze back-up?")) return;
+  S = Object.assign({ starts:[], len:28, logs:{}, wishes:[], gym:[], weights:[], water:{}, bottles:{}, pill:{}, goal:3, phone:"" }, o); save(); render(); $("bk").value = ""; } catch(e){ alert("Deze back-up is niet geldig."); } };
+function render(){ rHome(); rGym(); rCyc(); rWish(); rSos(); $("phShow").textContent = S.phone ? "+" + S.phone : "niet ingesteld"; }
+render();
+if (!S.phone) askPhone();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+setTimeout(() => hearts(14), 300);
+document.addEventListener("visibilitychange", () => { if (!document.hidden){ sel = tdy(); render(); hearts(8); } });
+</script>
+</body>
+</html>
