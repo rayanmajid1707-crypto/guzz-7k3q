@@ -55,25 +55,25 @@ nav button{flex:1;max-width:110px;border:0;background:none;font-size:11px;color:
 <main id="v"></main><nav id="nav"></nav><div class="ov" id="ov" hidden></div><div class="ov" id="lk" style="z-index:50" hidden></div>
 <script>
 /* ====== CONFIG (hier pas je teksten aan) ====== */
-const CFG={name:"Guzem",title:"Guzem benim's remote",short:"Guzem",
-love:["Je hoeft vandaag niets te bewijzen. Ik ben al trots op je.","Wat je ook voelt vandaag, ik ben er voor je.","Ik denk aan je, ook als ik het niet zeg.","Je bent genoeg, precies zoals je bent.","Rust is ook vooruitgang.","Ik hou van hoe je lacht als je denkt dat niemand kijkt.","Een stap tegelijk. Ik loop mee.","Je maakt mijn dagen mooier."],
+const CFG={name:"Guzem",title:"Guzz benim's tracker",short:"Guzem",
+love:["dikzak doe kalm. Ik ben al trots op je.","Wat je ook voelt vandaag, ik ben er voor je.","Ik denk aan je, ook als ik het niet zeg.","Je bent genoeg, precies zoals je bent.","Rust is ook vooruitgang.","Ik hou van hoe je lacht als je denkt dat niemand kijkt.","Een stap tegelijk. Ik loop mee.","Je maakt mijn dagen mooier."],
 comfortNote:"Je hoeft niets te doen. Adem even rustig, ik ben er voor je.",
-hug:"ik heb een hele dikke knuffel van u nodig",
-comfort:[{l:"Thee",m:"kunde gij thee maken voor mij?"},{l:"Kruik",m:"maak ne kruik voor mij pls, mijn buik doet zeer"},{l:"Eten of snacks",m:"ik heb honger of zin in iets lekkers, kunde gij iets meebrengen?"},{l:"Gezelschap",m:"ik wil gezelschap, kunde gij bij mij komen of bellen?"},{l:"Zware dag",m:"ik heb een zware dag, wees een beetje lief tegen mij"}],
+hug:"ik heb een fat ass knuffel van nodiggg",
+comfort:[{l:" nana Theetje",m:"kan je nana thee maken voor mij?"},{l:"Kruik",m:"vul een kruik voor mij pls, mijn buik doet pijn"},{l:"Eten of snacks",m:"ik heb honger en highkey zin in iets lekkers (ook in mo obv), kan je iets meebrengen?"},{l:"Gezelschap",m:"ik wil gezelschap, kan je afspreken of bellen?"},{l:"Zware dag",m:"ik heb een zware dag, wees een beetje liever tegen mij"}],
 buttons:[
 {label:"Buikpijn / Krampen",msg:"Schat, ik heb last van krampen (kmoet lowkey kaka doen), kun je een kruik of pijnstiller voor brengen? 🥺"},
 {label:"Honger / Cravings",msg:"rat je bent zo een dikzak da ik nu ook honger heb gekregen :) 🍫🍕"},
 {label:"mo nodig",msg:"mo ik wil u nu echt, waarom zijn we nog ni getrouwd, allemaal door jou:( 🫂"},
 {label:"lowkey closing my eyes",msg:"rat, ik ga ni slapen ma mijn ogen gewoon rusten okkii 😴"},
-{label:"kruik pls",msg:"rat maak ne kruik voor mij pls, mijn buik doet zeer 🌡️🥺"},
-{label:"thee bro",msg:"kunde gij thee maken voor mij? 🍵🥺"},
-{label:"film?",msg:"rat zin in filmavond met snacks? 🎬🍿"},
-{label:"ik ben emotioneel",msg:"ik ben vandaag extra emotioneel, wees een beetje lief tegen mij 🥺💗"}],
-moods:["Goed","Lief","Meh","Verdrietig","Boos","Moe"],
-symptoms:["Krampen","Hoofdpijn","Rugpijn","Opgeblazen","Misselijk","Gevoelige borsten","Acne","Emotioneel","Zin in zoet"],
-types:["Kracht","Cardio","Benen","Billen","Buik","Yoga","Wandelen"],
-groups:["Borst","Rug","Schouders","Armen","Benen","Billen","Core"],
-bottleGoal:2,bottleMl:750};
+{label:"kruik pls",msg:"rat maak een kruik voor mij pls, mijn buik doet pijn 🌡️🥺"},
+{label:"nana theetje",msg:"kan je nana thee maken voor mij plss? 🍵🥺"},
+{label:"film/serie?",msg:"rat zin in film/serie avond? 🎬🍿"},
+{label:"ik ben emo",msg:"ik ben vandaag extra emo, wees een beetje liever tegen mij 🥺💗"}],
+moods:["life's beautiful","goodd","Meh I guess","emo","Boos","Moe","geïrriteerd"],
+symptoms:["Krampen","Hoofdpijn","Rugpijn","bloated","Misselijk","Gevoelige borsten","Acne","Emo","Zin in dessert"],
+types:["upper","Benen","Billen (pillow)","abs","Wandelen"],
+groups:["chest","back","Schouders","Armen","lower","Core"],
+bottleGoal:3,bottleMl:580};
 /* ============================================== */
 const $=i=>document.getElementById(i),D=864e5,KEY="cyclus-app-v1",SNAP="guzem-snap",LOCK="guzem-lock";
 const UI={tab:"today",sub:"gym",wr:30,sr:30,gt:"",ql:0,pt:"",vy:new Date().getFullYear(),vm:new Date().getMonth(),sel:"",cf:0,ph:0};
