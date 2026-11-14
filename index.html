@@ -169,7 +169,7 @@ return`${cdCard()}<section class="card"><h2>Volgende date</h2>${inp("cdIn",'type
 <section class="card"><h2>Alles wissen</h2><p class="muted" style="margin-top:0">Verwijdert alle gegevens, kopieën en de PIN van dit toestel.</p><button class="btn ghost" data-a="wipe">Alle gegevens wissen</button></section>`}
 const vComfort=()=>`<button class="btn sm ghost" data-a="cfx">Sluiten</button><div style="height:34px"></div><p class="note" style="font-size:24px">${esc(CFG.comfortNote)}</p><a class="hug" id="hug" role="button" data-a="hug">Knuffel</a><small>Tik om hem een knuffel te sturen</small><div class="grid" style="margin-top:30px">${CFG.comfort.map(c=>`<a class="msg" href="${wa(c.m)}">${esc(c.l)}</a>`).join("")}</div>`;
 const vPhone=()=>`<h2 style="margin-top:34px;font-size:26px">WhatsApp-nummer</h2><p class="muted">Naar welk nummer sturen de knoppen? Het wordt alleen op dit toestel bewaard.</p>${inp("phIn",'type="tel" inputmode="tel" placeholder="0470 12 34 56"',S.phone?"+"+S.phone:"")}<p class="muted">${UI.phE||""}</p><button class="btn" data-a="phsave">Opslaan</button>${S.phone?'<button class="btn ghost" data-a="phx">Annuleren</button>':""}`;
-function R(){const h=new Date().getHours();$("hd").textContent=T().toLocaleDateString("nl-BE",{weekday:"long",day:"numeric",month:"long"});$("hi").textContent=(h<6?"Goedenacht":h<12?"Goedemorgen":h<18?"Goedemiddag":"Goedenavond")+", "+CFG.name;
+function R(){const h=new Date().getHours();$("hd").textContent=T().toLocaleDateString("nl-BE",{weekday:"long",day:"numeric",month:"long"});$("hi").textContent=(h<6?"Goedenacht":h<12?"Goedemorgen":h<18?"Merhaba":"Goedenavond")+", "+CFG.name;
 $("v").innerHTML={today:vToday,well:vWell,cyc:vCyc,us:vUs}[UI.tab]();
 $("nav").innerHTML=[["today","Vandaag","home"],["well","Welzijn","dumb"],["cyc","Cyclus","cal"],["us","Wij","heart"]].map(x=>`<button class="${UI.tab===x[0]?"on":""}" data-a="tab" data-t="${x[0]}">${ic(x[2])}${x[1]}</button>`).join("");
 const o=UI.cf?vComfort():UI.ph?vPhone():"";$("ov").className="ov"+(UI.cf?" cf":"");$("ov").innerHTML=o;$("ov").hidden=!o}
@@ -183,7 +183,7 @@ async function kd(pin,salt){const k=await crypto.subtle.importKey("raw",enc.enco
 async function chk(pin){const L=JSON.parse(localStorage.getItem(LOCK)||"null");return!!L&&await kd(pin,unhex(L.s))===L.h}
 let locked=!!localStorage.getItem(LOCK),hid=0;
 function lkR(){$("lk").hidden=!locked;$("lk").innerHTML=locked?`<h2 style="margin-top:80px;font-size:28px;text-align:center">${esc(CFG.name)}</h2><p class="muted" style="text-align:center">Vul je PIN in</p><input id="pn" type="password" inputmode="numeric" maxlength="8" autocomplete="off" style="text-align:center;font-size:22px" aria-label="PIN"><p class="muted" style="text-align:center">${UI.lkE||""}</p><button class="btn" data-a="unlock">Openen</button>`:""}
-document.addEventListener("visibilitychange",()=>{if(document.hidden)hid=Date.now();else if(localStorage.getItem(LOCK)&&Date.now()-hid>(S.idle||0)*6e4){locked=true;lkR()}else if(!locked){R();if(Date.now()-hid>3e4)bloom(14)}});
+document.addEventListener("visibilitychange",()=>{if(document.hidden)hid=Date.now();else if(localStorage.getItem(LOCK)&&Date.now()-hid>(S.idle||0)*6e4){locked=true;lkR()}else if(!locked){newDay();R();if(Date.now()-hid>3e4)bloom(14)}});
 /* acties */
 const tog=d=>{if(S.pill[d])delete S.pill[d];else S.pill[d]=1};
 function addStart(ds){if(!ds||P(ds)>T())return notice("Kies een datum in het verleden of vandaag.");if(!S.starts.includes(ds))S.starts.push(ds);S.starts.sort()}
@@ -210,7 +210,7 @@ theme:b=>{S.theme=b.dataset.v;applyTheme()},cfo:()=>{UI.cf=1},cfx:()=>{UI.cf=0},
 pho:()=>{UI.ph=1;UI.phE=""},phx:()=>{UI.ph=0},phsave:()=>{const n=normPhone(UI.phIn||"");if(!n){UI.phE="Dat nummer lijkt niet te kloppen.";return}S.phone=n;UI.ph=0;UI.phIn=""},
 pinset:async()=>{const p=UI.pin||"";if(!/^\d{4,8}$/.test(p))return notice("Kies 4 tot 8 cijfers.");if(localStorage.getItem(LOCK)){const c=prompt("Huidige PIN:");if(!c||!await chk(c))return notice("Huidige PIN klopt niet.")}const s=crypto.getRandomValues(new Uint8Array(16));localStorage.setItem(LOCK,JSON.stringify({s:hex(s),h:await kd(p,s)}));UI.pin="";notice("PIN opgeslagen")},
 pinoff:async()=>{if(!UI.pin||!await chk(UI.pin))return notice("Typ je huidige PIN in het veld.");localStorage.removeItem(LOCK);UI.pin="";notice("PIN uitgezet")},
-unlock:async()=>{if(await chk($("pn").value)){locked=false;UI.lkE="";lkR();R();bloom()}else{UI.lkE="Onjuiste PIN.";lkR()}return false},
+unlock:async()=>{if(await chk($("pn").value)){locked=false;UI.lkE="";newDay();lkR();R();bloom()}else{UI.lkE="Onjuiste PIN.";lkR()}return false},
 bkd:()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([bkJ()],{type:"application/json"}));a.download="guzem-backup-"+tdy()+".json";document.body.appendChild(a);a.click();a.remove();S.bk=Date.now();notice("Back-up gedownload")},
 bkc:()=>{S.bk=Date.now();navigator.clipboard.writeText(bkJ()).then(()=>notice("Back-up gekopieerd"),()=>notice("Kopiëren lukte niet, gebruik Downloaden"))},
 bkr:()=>restore(UI.bkT||""),snr:b=>{const s=JSON.parse(localStorage.getItem(SNAP)||"[]")[+b.dataset.i];return s?restore(s.j):false},
@@ -221,9 +221,10 @@ document.addEventListener("change",e=>{const t=e.target;if(t.id==="exSel")R();if
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="pn")A.unlock()});
 function applyTheme(){const t=S.theme,r=document.documentElement;if(t==="dark"||t==="light")r.dataset.theme=t;else delete r.dataset.theme;const dk=t==="dark"||(t!=="light"&&!!window.matchMedia&&matchMedia("(prefers-color-scheme:dark)").matches);document.querySelector('meta[name="theme-color"]').content=dk?"#1c1715":"#faf6f1"}
 applyTheme();if(window.matchMedia)try{matchMedia("(prefers-color-scheme:dark)").addEventListener("change",applyTheme)}catch(e){}
-UI.sel=tdy();if(!S.phone)UI.ph=1;
+function newDay(){const t=tdy();if(UI.day!==t){UI.day=t;UI.sel=t;UI.vy=T().getFullYear();UI.vm=T().getMonth()}}
+UI.day=tdy();UI.sel=tdy();if(!S.phone)UI.ph=1;
 if(startMsg)setTimeout(()=>notice(startMsg),500);
 lkR();R();save();if(!locked)setTimeout(bloom,400);
-setInterval(()=>{if(UI.tab==="today"&&!locked&&!UI.cf&&!UI.ph)R()},3e4);
+setInterval(()=>{newDay();if(UI.tab==="today"&&!locked&&!UI.cf&&!UI.ph)R()},3e4);
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script></body></html>
