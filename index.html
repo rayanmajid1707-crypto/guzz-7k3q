@@ -1,407 +1,216 @@
 <!DOCTYPE html>
-<html lang="nl">
-<head>
-<meta charset="utf-8">
-<title>Guzem</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<meta name="theme-color" content="#fff4f6">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Guzem">
-<link rel="apple-touch-icon" href="app-180.png">
-<link rel="manifest" href="manifest.json">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:wght@600;700&display=swap">
+<html lang="nl"><head><meta charset="utf-8"><title>Guzem</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#faf6f1"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Guzem">
+<link rel="apple-touch-icon" href="app-180.png"><link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,wght@0,500;0,600;1,500&display=swap">
 <style>
-:root{--bg:#fff4f6;--card:#fff;--ac:#f4b6c6;--ad:#e08aa3;--be:#f3e6d8;--tx:#4a3b3f;--mu:#9a8588;--ln:#f1e5dd}
+:root{--bg:#faf6f1;--cd:#fff;--rs:#b76e79;--rl:#f2e3e0;--ch:#e9d8c2;--tx:#3b2f2f;--mu:#8a7a76;--ln:#eadfd6}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 "Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
-body{max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 18px) 16px calc(env(safe-area-inset-bottom,0px) + 100px)}
-h1,h2{font-family:"Newsreader",Georgia,"Times New Roman",serif;letter-spacing:-.01em}
-h1{font-size:28px;line-height:1.1;margin:2px 0 0;font-weight:700}
-h2{font-size:19px;margin:0 0 12px;font-weight:700}
-.date{color:var(--mu);font-size:13px;text-transform:capitalize}
-.tab{display:none}.tab.on{display:block}
-.card{background:var(--card);border:1px solid var(--ln);border-radius:22px;padding:18px;margin:14px 0}
-.muted{color:var(--mu);font-size:13px}
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
-.tile{border:0;text-align:left;border-radius:18px;padding:14px;font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--ln)}
-.tile .v{font-size:26px;font-weight:800;color:var(--ad);margin-top:2px}
-.tile.done{background:var(--ac);border-color:var(--ad)}.tile.done .v,.tile.done .muted{color:#fff}
-.btn{width:100%;border:0;border-radius:16px;padding:15px;font:inherit;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--ac),var(--ad))}
-.btn:active,.tile:active,.sos:active,.chip:active{transform:scale(.96)}
-.sm{border:0;border-radius:14px;padding:12px 15px;font:inherit;font-weight:700;background:var(--be);color:var(--tx);text-decoration:none;display:inline-block;text-align:center}
-.row{display:flex;gap:8px;margin-top:10px}
-input{flex:1;min-width:0;border:2px solid var(--be);border-radius:14px;padding:12px;font:inherit;color:var(--tx);background:#fff}
-.mood{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.mood button{flex:1 1 28%;border:2px solid transparent;border-radius:14px;background:var(--be);font:inherit;font-weight:700;font-size:14px;color:var(--tx);padding:10px 0}
-.mood button.on{border-color:var(--ad);background:#fde4ea}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.chip{border:2px solid var(--be);background:#fff;color:var(--tx);border-radius:999px;padding:8px 13px;font:inherit;font-size:14px;font-weight:700}
-.chip.on{background:var(--ac);border-color:var(--ad);color:#fff}
-.bar{height:12px;background:var(--be);border-radius:9px;overflow:hidden;margin:8px 0}
-.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ad));border-radius:9px;transition:width .4s}
-.step{display:flex;align-items:center;justify-content:space-between}
-.step div{display:flex;align-items:center;gap:14px;font-weight:800;font-size:20px}
-.step button{width:38px;height:38px;border-radius:50%;border:0;background:var(--be);font-size:20px;font-weight:800;color:var(--tx)}
-.item{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;border-bottom:1px solid var(--ln)}
-.item:last-child{border:0}
-.item button{border:0;background:none;color:var(--mu);font-size:18px}
-.water{display:flex;flex-wrap:wrap;gap:6px}
-.water button{border:0;background:none;font-size:30px;opacity:.22;padding:2px}
-.water button.on{opacity:1}
-.ring{position:relative;width:170px;height:170px;margin:0 auto 8px}
-.ring svg{transform:rotate(-90deg)}
-.ring div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring b{font-size:50px;line-height:1;color:var(--ad)}
-.next{display:flex;justify-content:space-around;background:var(--be);border-radius:16px;padding:10px;text-align:center;margin-top:10px}
-.next b{display:block;font-size:16px}
-.pills{display:flex;justify-content:space-between}
-.pills button{border:0;background:none;font:inherit;color:var(--mu);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px}
-.pills i{width:34px;height:34px;border-radius:50%;background:var(--be);display:flex;align-items:center;justify-content:center;font-style:normal;color:#fff;font-size:16px}
-.pills .on i{background:var(--ad)}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
-.cal .w{font-size:11px;color:var(--mu);font-weight:700}
-.cal .d{aspect-ratio:1;border-radius:11px;font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
-.cal .d b{font-size:14px;font-weight:400;height:16px}
-.cal .p{background:#fde4ea;color:var(--ad);font-weight:800}
-.cal .t{outline:2px solid var(--ad)}.cal .s{box-shadow:inset 0 0 0 2px var(--tx)}
-.calh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.calh h2{margin:0;text-transform:capitalize}
-.calh button{border:0;background:var(--be);border-radius:50%;width:34px;height:34px;color:var(--tx)}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 "Instrument Sans",system-ui,-apple-system,sans-serif}
+body{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 18px calc(env(safe-area-inset-bottom,0px) + 96px)}
+h1,h2,.serif,.cdn b,.tile b{font-family:Newsreader,Georgia,serif;font-weight:600;letter-spacing:-.01em}
+h1{font-size:30px;line-height:1.1;margin:2px 0 16px}h2{font-size:19px;margin:0 0 12px}
+.sub,small,.muted{color:var(--mu);font-size:13px}.sub{text-transform:capitalize}
+.card{background:var(--cd);border:1px solid var(--ln);border-radius:18px;padding:18px;margin:12px 0}
+.note{font:italic 500 21px/1.35 Newsreader,Georgia,serif;margin:4px 2px 16px}
+.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:14px;font-weight:600;text-align:center;text-decoration:none;background:var(--rs);color:#fff;margin-top:10px}
+.btn.ghost{background:transparent;color:var(--rs);border:1px solid var(--rs)}.btn.sm{width:auto;display:inline-block;padding:10px 14px;margin:0}
+input,select,textarea{width:100%;border:1px solid var(--ln);border-radius:12px;padding:12px;background:#fff}
+.row{display:flex;gap:8px;margin-top:10px;align-items:center}.row>*{flex:1;min-width:0}.row>.btn{flex:none;width:auto;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.chip{border:1px solid var(--ln);background:#fff;border-radius:999px;padding:8px 14px;font-size:14px}
+.chip.on{background:var(--rl);border-color:var(--rs);color:var(--rs);font-weight:600}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.tile{text-align:left;background:var(--cd);border:1px solid var(--ln);border-radius:16px;padding:14px}
+.tile b{display:block;font-size:24px;margin-top:2px}.tile.on{background:var(--rl);border-color:var(--rs)}
+.comfort{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--rl);border:1px solid #e6cfcb;border-radius:18px;padding:16px;color:var(--rs)}
+.comfort span{flex:1;color:var(--tx)}.comfort small{display:block}
+.cdn{display:flex;gap:26px}.cdn b{font-size:40px;line-height:1;display:block;color:var(--rs)}
+.seg{display:flex;background:#efe7de;border-radius:12px;padding:3px;margin-bottom:6px}.seg button{flex:1;border:0;background:none;padding:9px 0;border-radius:10px;font-size:14px;color:var(--mu)}.seg .on{background:#fff;color:var(--tx);font-weight:600}
+.bar{height:8px;background:var(--rl);border-radius:6px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--rs)}
+.item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--ln)}.item button{border:0;background:none;color:var(--mu);padding:6px}
+.step{display:flex;align-items:center;gap:14px}.step button{width:36px;height:36px;border-radius:50%;border:1px solid var(--ln);background:#fff}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sos{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-decoration:none;color:var(--tx);border-radius:20px;padding:18px 8px;font-weight:800;font-size:15px;min-height:84px;text-align:center;border:1px solid var(--ln)}
-.sos:nth-child(4n+1){background:#fde4ea}.sos:nth-child(4n+2){background:#f8ecdd}.sos:nth-child(4n+3){background:#fde9f1}.sos:nth-child(4n){background:#f3eadf}
-.link{background:none;border:0;color:var(--mu);font:inherit;text-decoration:underline;width:100%;margin-top:12px}
-nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--ln);padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px);z-index:5}
-nav button{flex:1;max-width:110px;border:0;background:none;font:inherit;font-size:11px;font-weight:700;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0}
-nav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-nav button.on{color:var(--ad)}
-.h{position:fixed;bottom:-40px;pointer-events:none;z-index:20;animation:up 2.6s ease-in forwards}
-@keyframes up{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
-@media(prefers-reduced-motion:reduce){.h{display:none}}
-.sheet{position:fixed;inset:0;background:rgba(74,59,63,.4);display:none;align-items:flex-end;z-index:30}.sheet.open{display:flex}
-.panel{background:#fff;width:100%;max-width:480px;margin:0 auto;border-radius:24px 24px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom,0px) + 22px)}
-textarea{width:100%;border:2px solid var(--be);border-radius:14px;padding:10px;font:inherit;font-size:12px;color:var(--tx)}
-</style>
-</head>
-<body>
-<header><div class="date" id="hd"></div><h1 id="title"></h1></header>
-
-<main class="tab on" id="home">
-  <div class="tiles">
-    <button class="tile" id="tPill"><div class="muted">Pil</div><div class="v" id="vPill">–</div><div class="muted" id="sPill"></div></button>
-    <button class="tile" id="tWater"><div class="muted">Water</div><div class="v" id="vWater">–</div><div class="muted">drinkbussen vandaag</div></button>
-    <button class="tile" id="tWeek"><div class="muted">Workouts</div><div class="v" id="vWeek">–</div><div class="muted">deze week</div></button>
-    <button class="tile" id="tCyc"><div class="muted">Cyclusdag</div><div class="v" id="vCyc">–</div><div class="muted" id="sCyc"></div></button>
-  </div>
-  <section class="card">
-    <h2>Hoe voel je je vandaag?</h2>
-    <div class="mood" id="mood"></div>
-    <div class="chips" id="chips"></div>
-    <a class="sm" id="sendCheck" style="width:100%">Stuur mijn check-in naar hem</a>
-  </section>
-</main>
-
-<main class="tab" id="gym">
-  <section class="card">
-    <h2>Weekdoel</h2>
-    <div class="bar"><i id="gProg"></i></div>
-    <div class="muted" id="gTxt"></div>
-    <div class="step" style="margin-top:12px"><span>Doel per week</span><div><button id="gm">−</button><span id="goal">3</span><button id="gp">+</button></div></div>
-  </section>
-  <section class="card">
-    <h2>Workout loggen</h2>
-    <div class="chips" id="gTypes"></div>
-    <div class="row" style="margin-top:0"><input id="gMin" type="number" inputmode="numeric" placeholder="Minuten (optioneel)"><button class="sm" id="gAdd">Opslaan</button></div>
-    <div id="gList" style="margin-top:8px"></div>
-  </section>
-  <section class="card">
-    <h2>Water</h2>
-    <div style="display:flex;align-items:baseline;gap:8px"><b style="font-size:28px;color:var(--ad)" id="wBig">0</b><span class="muted" id="wSub"></span></div>
-    <div class="bar"><i id="wBar"></i></div>
-    <div class="row"><button class="sm" id="wMin" style="flex:1">− 1 drinkbus</button><button class="btn" id="wPlus" style="flex:1;margin:0">+ 1 drinkbus</button></div>
-    <button class="link" id="wReset">Vandaag terugzetten op 0</button>
-  </section>
-  <section class="card">
-    <h2>Gewicht</h2>
-    <div style="display:flex;align-items:baseline;gap:10px"><b style="font-size:28px;color:var(--ad)" id="wNow">–</b><span class="muted" id="wDiff"></span></div>
-    <div id="wSpark"></div>
-    <div class="row"><input id="wIn" type="text" inputmode="decimal" placeholder="Gewicht in kg"><button class="sm" id="wAdd">Opslaan</button></div>
-  </section>
-</main>
-
-<main class="tab" id="cyc">
-  <section class="card">
-    <div class="ring">
-      <svg width="170" height="170" viewBox="0 0 210 210"><circle cx="105" cy="105" r="92" fill="none" stroke="#f3e6d8" stroke-width="16"/><circle id="prog" cx="105" cy="105" r="92" fill="none" stroke="url(#g)" stroke-width="16" stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="578"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4b6c6"/><stop offset="1" stop-color="#e08aa3"/></linearGradient></defs></svg>
-      <div><b id="day">–</b><span class="muted">cyclusdag</span></div>
-    </div>
-    <div style="text-align:center;font-weight:700" id="phase"></div>
-    <div class="next"><div><b id="nDate">–</b><span class="muted">volgende menstruatie</span></div><div><b id="nIn">–</b><span class="muted">over</span></div></div>
-    <button class="btn" id="start" style="margin-top:12px">Mijn menstruatie is vandaag begonnen</button>
-    <div class="row"><input type="date" id="eDate"><button class="sm" id="eBtn">Opslaan</button></div>
-    <div class="muted" style="text-align:center;margin-top:8px" id="hist"></div>
-  </section>
-  <section class="card">
-    <h2>Pil, laatste 7 dagen</h2>
-    <div class="pills" id="pills"></div>
-  </section>
-  <section class="card">
-    <div class="calh"><button id="pv">‹</button><h2 id="mT"></h2><button id="nx">›</button></div>
-    <div class="cal" id="cal"></div>
-    <div class="muted" id="dInfo" style="margin-top:10px;text-align:center">Tik op een dag voor je check-in.</div>
-  </section>
-  <section class="card">
-    <div class="step"><span>Gemiddelde cyclus (dagen)</span><div><button id="lm">−</button><span id="len">28</span><button id="lp">+</button></div></div>
-    <button class="link" id="undo">Laatste startdatum verwijderen</button>
-  </section>
-</main>
-
-<main class="tab" id="rem">
-  <h2 style="margin-top:16px">what ya need?</h2>
-  <section class="grid" id="sos"></section>
-  <section class="card">
-    <h2>Mijn wensenlijstje</h2>
-    <div class="row" style="margin-top:0"><input id="wishIn" placeholder="Bijv. chocolade, thee, film..."><button class="sm" id="wishAdd">+</button></div>
-    <div id="wishes"></div>
-    <a class="sm" id="sendWish" style="width:100%;margin-top:10px">Stuur lijstje naar hem</a>
-  </section>
-  <section class="card"><h2>Instellingen</h2>
-    <div class="item"><span>WhatsApp-nummer<br><span class="muted" id="phShow"></span></span><button class="sm" id="phChange">Wijzigen</button></div>
-    <h2 style="margin-top:16px;font-size:16px">Back-up</h2>
-    <textarea id="bk" rows="3" placeholder="Maak een back-up, of plak hier een back-up om te herstellen"></textarea>
-    <div class="row"><button class="sm" id="bkMake" style="flex:1">Back-up maken</button><button class="sm" id="bkRestore" style="flex:1">Herstellen</button></div>
-  </section>
-</main>
-
-<div class="sheet" id="setup"><div class="panel"><h2>WhatsApp-nummer</h2><p class="muted">Naar welk nummer sturen de knoppen? Het wordt alleen op dit toestel bewaard.</p><div class="row"><input id="phIn" type="tel" inputmode="tel" placeholder="0470 12 34 56"><button class="sm" id="phSave">Opslaan</button></div><div class="muted" id="phErr" style="margin-top:8px"></div></div></div>
-<nav>
-  <button class="on" data-t="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Vandaag</button>
-  <button data-t="gym"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>Gym</button>
-  <button data-t="cyc"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Cyclus</button>
-  <button data-t="rem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Remote</button>
-</nav>
-
+.msg{background:var(--cd);border:1px solid var(--ln);border-radius:14px;padding:14px 10px;text-align:center;text-decoration:none;color:var(--tx);font-weight:600;min-height:66px;display:flex;align-items:center;justify-content:center}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}.cal .w{font-size:11px;color:var(--mu)}.cal button{aspect-ratio:1;border:0;border-radius:10px;background:none;font-size:13px;position:relative}.cal .p{background:var(--rl);color:var(--rs);font-weight:700}.cal .t{outline:1.5px solid var(--rs)}.cal .s{box-shadow:inset 0 0 0 1.5px var(--tx)}.cal i{position:absolute;bottom:4px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--rs)}
+.ring{position:relative;width:170px;height:170px;margin:0 auto 8px}.ring svg{transform:rotate(-90deg)}.ring div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.ring b{font:600 46px Newsreader,Georgia,serif;color:var(--rs);line-height:1}
+.pills{display:flex;justify-content:space-between}.pills button{border:0;background:none;color:var(--mu);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px}.pills i{width:32px;height:32px;border-radius:50%;background:#efe7de;color:#fff;display:flex;align-items:center;justify-content:center;font-style:normal}.pills .on i{background:var(--rs)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;background:rgba(250,246,241,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--ln);padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px);z-index:5}
+nav button{flex:1;max-width:110px;border:0;background:none;font-size:11px;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:3px}nav .on{color:var(--rs)}
+.ov{position:fixed;inset:0;z-index:40;overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 22px 40px;background:var(--bg)}
+.ov.cf{background:linear-gradient(180deg,#f3e2de,#faf6f1 65%);text-align:center}
+.hug{display:flex;width:170px;height:170px;border-radius:50%;border:1px solid #e6cfcb;background:radial-gradient(#fff,var(--rl));color:var(--rs);margin:26px auto 10px;align-items:center;justify-content:center;font:600 22px Newsreader,Georgia,serif;animation:br 5s ease-in-out infinite;text-decoration:none}
+.hug.go{animation:go .7s ease-out forwards}
+@keyframes br{50%{transform:scale(1.07)}}@keyframes go{to{transform:scale(1.35);opacity:.2}}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 90px);transform:translateX(-50%);background:var(--tx);color:#fff;border-radius:12px;padding:10px 16px;z-index:60;font-size:14px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header><div class="sub" id="hd"></div><h1 id="hi"></h1></header>
+<main id="v"></main><nav id="nav"></nav><div class="ov" id="ov" hidden></div><div class="ov" id="lk" style="z-index:50" hidden></div>
 <script>
-/* ====== CONFIG ====== */
-const CONFIG = {
-  appName: "Guzem benim's remote",
-  shortName: "Guzem",
-  colors: { bg:"#fff4f6", accent:"#f4b6c6", accentDark:"#e08aa3", beige:"#f3e6d8", text:"#4a3b3f" },
-  buttons: [
-    { label:"Buikpijn / Krampen", msg:"Schat, ik heb last van krampen (kmoet lowkey kaka doen), kun je een kruik of pijnstiller voor brengen? 🥺" },
-    { label:"Honger / Cravings",  msg:"rat je bent zo een dikzak da ik nu ook honger heb gekregen :) 🍫🍕" },
-    { label:"mo nodig",           msg:"mo ik wil u nu echt, waarom zijn we nog ni getrouwd, allemaal door jou:( 🫂" },
-    { label:"lowkey closing my eyes", msg:"rat, ik ga ni slapen ma mijn ogen gewoon rusten okkii 😴" },
-    { label:"kruik pls",          msg:"rat maak ne kruik voor mij pls, mijn buik doet zeer 🌡️🥺" },
-    { label:"thee bro",           msg:"kunde gij thee maken voor mij? 🍵🥺" },
-    { label:"film?",              msg:"rat zin in filmavond met snacks? 🎬🍿" },
-    { label:"ik ben emotioneel",  msg:"ik ben vandaag extra emotioneel, wees een beetje lief tegen mij 🥺💗" }
-  ],
-  moods: ["Goed","Lief","Meh","Verdrietig","Boos","Moe"],
-  symptoms: ["Krampen","Hoofdpijn","Rugpijn","Opgeblazen","Misselijk","Gevoelige borsten","Acne","Emotioneel","Zin in zoet"],
-  gymTypes: ["Kracht","Cardio","Benen","Billen","Buik","Yoga","Wandelen"],
-  bottleGoal: 2,      // aantal drinkbussen per dag
-  bottleMl: 750       // inhoud van haar drinkbus in ml
-};
-/* ===================== */
-
-const $ = i => document.getElementById(i), D = 864e5, K = "cyclus-app-v1";
-let S = { starts:[], len:28, logs:{}, wishes:[], gym:[], weights:[], water:{}, bottles:{}, pill:{}, goal:3, phone:"" };
-try { Object.assign(S, JSON.parse(localStorage.getItem(K) || "{}")); } catch(e){}
-const save = () => { try { localStorage.setItem(K, JSON.stringify(S)); } catch(e){} };
-const P = s => { const [a,b,c] = s.split("-").map(Number); return new Date(a, b-1, c, 12); };
-const I = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-const T = () => { const t = new Date(); t.setHours(12,0,0,0); return t; };
-const tdy = () => I(T());
-const F = d => d.toLocaleDateString("nl-BE", { weekday:"short", day:"numeric", month:"short" });
-const wa = t => "https://wa.me/" + (S.phone || "") + "?text=" + encodeURIComponent(t);
-
-const rs = document.documentElement.style, c = CONFIG.colors;
-rs.setProperty("--bg",c.bg); rs.setProperty("--ac",c.accent); rs.setProperty("--ad",c.accentDark); rs.setProperty("--be",c.beige); rs.setProperty("--tx",c.text);
-document.querySelector('meta[name="theme-color"]').content = c.bg;
-document.title = CONFIG.shortName;
-document.querySelector('meta[name="apple-mobile-web-app-title"]').content = CONFIG.shortName;
-$("title").textContent = CONFIG.appName;
-
-function hearts(){}
-
-/* tabs */
-function go(t){
-  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("on", x.dataset.t === t));
-  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x.id === t));
-  scrollTo(0,0);
-}
-document.querySelectorAll("nav button").forEach(b => b.onclick = () => go(b.dataset.t));
-
-/* pil */
-const streak = () => { let n = 0, d = T(); if (!S.pill[I(d)]) d = new Date(d - D); while (S.pill[I(d)]){ n++; d = new Date(d - D); } return n; };
-function togglePill(ds){ if (S.pill[ds]) delete S.pill[ds]; else { S.pill[ds] = 1; hearts(6); } save(); render(); }
-$("tPill").onclick = () => togglePill(tdy());
-
-/* water */
-const wN = () => S.bottles[tdy()] || 0;
-const wSet = n => { S.bottles[tdy()] = Math.max(0, Math.min(20, n)); save(); render(); };
-$("tWater").onclick = () => wSet(wN() + 1);
-$("wPlus").onclick = () => wSet(wN() + 1);
-$("wMin").onclick = () => wSet(wN() - 1);
-$("wReset").onclick = () => wSet(0);
-
-/* gym */
-let gType = "";
-const wkStart = () => { const d = T(); d.setDate(d.getDate() - ((d.getDay()+6)%7)); return I(d); };
-const wkN = () => S.gym.filter(g => g.d >= wkStart()).length;
-$("gTypes").innerHTML = CONFIG.gymTypes.map(t => `<button class="chip" data-t="${t}">${t}</button>`).join("");
-$("gTypes").onclick = e => { const b = e.target.closest("button"); if (!b) return; gType = gType === b.dataset.t ? "" : b.dataset.t; rGym(); };
-$("gAdd").onclick = () => {
-  if (!gType) { gType = CONFIG.gymTypes[0]; }
-  S.gym.push({ d:tdy(), t:gType, m:parseInt($("gMin").value) || 0 });
-  $("gMin").value = ""; gType = ""; save(); render(); hearts(10);
-};
-$("gm").onclick = () => { S.goal = Math.max(1, S.goal-1); save(); render(); };
-$("gp").onclick = () => { S.goal = Math.min(7, S.goal+1); save(); render(); };
-$("gList").onclick = e => { const b = e.target.closest("button"); if (!b) return; S.gym.splice(+b.dataset.i, 1); save(); render(); };
-$("wAdd").onclick = () => {
-  const v = parseFloat($("wIn").value.replace(",", "."));
-  if (!v || v < 20 || v > 300) return;
-  S.weights = S.weights.filter(w => w.d !== tdy()); S.weights.push({ d:tdy(), kg:v });
-  S.weights.sort((a,b) => a.d < b.d ? -1 : 1); $("wIn").value = ""; save(); render();
-};
-function spark(a){
-  if (a.length < 2) return "";
-  const v = a.map(x => x.kg), mn = Math.min(...v), mx = Math.max(...v), r = mx - mn || 1;
-  return `<svg viewBox="0 0 200 50" width="100%" height="50" preserveAspectRatio="none"><polyline fill="none" stroke="var(--ad)" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" points="${v.map((y,i) => (i/(v.length-1)*196+2).toFixed(1)+","+(46-(y-mn)/r*42).toFixed(1)).join(" ")}"/></svg>`;
-}
-function rGym(){
-  const w = wkN(), g = S.goal;
-  $("gProg").style.width = Math.min(100, w/g*100) + "%";
-  $("gTxt").textContent = w + " van " + g + " workouts deze week" + (w >= g ? " · doel gehaald" : "");
-  $("goal").textContent = g;
-  document.querySelectorAll("#gTypes button").forEach(b => b.classList.toggle("on", b.dataset.t === gType));
-  const list = S.gym.map((x,i) => ({ x, i })).slice(-6).reverse();
-  $("gList").innerHTML = list.length ? list.map(o => `<div class="item"><span>${o.x.t}${o.x.m ? " · " + o.x.m + " min" : ""}<br><span class="muted">${F(P(o.x.d))}</span></span><button data-i="${o.i}" aria-label="Verwijder">✕</button></div>`).join("") : `<div class="muted">Nog geen workouts. Kies een type en sla je eerste op.</div>`;
-  const n = wN(), L = (n*CONFIG.bottleMl/1000).toFixed(1).replace(".", ",");
-  $("wBig").textContent = n + " / " + CONFIG.bottleGoal; $("wSub").textContent = "drinkbussen · " + L + " liter";
-  $("wBar").style.width = Math.min(100, n/CONFIG.bottleGoal*100) + "%";
-  const ws = S.weights, last = ws[ws.length-1];
-  $("wNow").textContent = last ? last.kg.toFixed(1).replace(".", ",") + " kg" : "–";
-  const df = ws.length > 1 ? last.kg - ws[ws.length-2].kg : 0;
-  $("wDiff").textContent = ws.length > 1 ? (df > 0 ? "+" : "") + df.toFixed(1).replace(".", ",") + " kg sinds vorige keer" : "Voeg je eerste meting toe";
-  $("wSpark").innerHTML = spark(ws.slice(-12));
-}
-
-/* cyclus */
-function rCyc(){
-  $("eDate").max = tdy(); $("len").textContent = S.len;
-  const last = S.starts.length ? P(S.starts[S.starts.length-1]) : null;
-  let day = "–", ph = "Tik hieronder om te starten", nd = "–", ni = "–", off = 578, hs = "";
-  if (last){
-    const d = Math.round((T() - last)/D) + 1, nx = new Date(last.getTime() + S.len*D), left = Math.round((nx - T())/D);
-    day = d;
-    ph = d <= 5 ? "Menstruatie" : d < S.len-16 ? "Opbouwfase" : d <= S.len-12 ? "Vruchtbare periode (schatting)" : "Rustige fase";
-    nd = F(nx);
-    ni = left > 1 ? left + " dagen" : left === 1 ? "morgen" : left === 0 ? "vandaag" : Math.abs(left) + (Math.abs(left) === 1 ? " dag te laat" : " dagen te laat");
-    off = 578 * (1 - Math.min(d/S.len, 1)); hs = "Laatste start: " + F(last);
-  }
-  $("day").textContent = day; $("phase").textContent = ph; $("nDate").textContent = nd; $("nIn").textContent = ni;
-  $("prog").style.strokeDashoffset = off; $("hist").textContent = hs;
-  $("pills").innerHTML = [6,5,4,3,2,1,0].map(k => { const d = new Date(T() - k*D), s = I(d);
-    return `<button class="${S.pill[s] ? "on" : ""}" data-d="${s}"><i>${S.pill[s] ? "✓" : ""}</i>${d.toLocaleDateString("nl-BE", { weekday:"short" }).slice(0,2)}</button>`; }).join("");
-  rCal();
-}
-$("pills").onclick = e => { const b = e.target.closest("button"); if (b) togglePill(b.dataset.d); };
-function addStart(ds){
-  if (!ds || P(ds) > T()) return;
-  if (!S.starts.includes(ds)) S.starts.push(ds);
-  S.starts.sort(); save(); render(); hearts(12);
-}
-$("start").onclick = () => addStart(tdy());
-$("eBtn").onclick = () => { addStart($("eDate").value); $("eDate").value = ""; };
-$("lm").onclick = () => { S.len = Math.max(20, S.len-1); save(); render(); };
-$("lp").onclick = () => { S.len = Math.min(45, S.len+1); save(); render(); };
-$("undo").onclick = () => { S.starts.pop(); save(); render(); };
-
-/* check-in (vandaag) */
-const cur = () => S.logs[tdy()] || { m:"", s:[] };
-function setLog(fn){ const l = cur(); fn(l); S.logs[tdy()] = l; save(); render(); hearts(5); }
-$("mood").innerHTML = CONFIG.moods.map(m => `<button data-m="${m}">${m}</button>`).join("");
-$("chips").innerHTML = CONFIG.symptoms.map(s => `<button class="chip" data-s="${s}">${s}</button>`).join("");
-$("mood").onclick = e => { const b = e.target.closest("button"); if (b) setLog(l => l.m = l.m === b.dataset.m ? "" : b.dataset.m); };
-$("chips").onclick = e => { const b = e.target.closest("button"); if (b) setLog(l => { const i = l.s.indexOf(b.dataset.s); i < 0 ? l.s.push(b.dataset.s) : l.s.splice(i,1); }); };
-function rHome(){
-  const l = cur(), n = wN(), k = streak(), last = S.starts.length ? P(S.starts[S.starts.length-1]) : null, took = !!S.pill[tdy()];
-  $("hd").textContent = T().toLocaleDateString("nl-BE", { weekday:"long", day:"numeric", month:"long" });
-  $("tPill").classList.toggle("done", took);
-  $("vPill").textContent = took ? "Genomen" : "Nog niet";
-  $("sPill").textContent = k ? k + " dagen op rij" : "tik als je hem hebt genomen";
-  $("vWater").textContent = n + " / " + CONFIG.bottleGoal;
-  $("vWeek").textContent = wkN() + " / " + S.goal;
-  $("vCyc").textContent = last ? Math.round((T() - last)/D) + 1 : "–";
-  $("sCyc").textContent = last ? "" : "nog niet gestart";
-  document.querySelectorAll("#mood button").forEach(b => b.classList.toggle("on", b.dataset.m === l.m));
-  document.querySelectorAll("#chips button").forEach(b => b.classList.toggle("on", l.s.includes(b.dataset.s)));
-  let t = "Check-in: ik wil even laten weten hoe het gaat";
-  if (l.m || l.s.length) t = "Mijn check-in van vandaag: " + (l.m ? "ik voel me " + l.m.toLowerCase() + ". " : "") + (l.s.length ? "Last van: " + l.s.join(", ").toLowerCase() + ". " : "");
-  $("sendCheck").href = wa(t);
-}
-$("tWeek").onclick = () => go("gym");
-$("tCyc").onclick = () => go("cyc");
-
-/* kalender */
-let vy = new Date().getFullYear(), vm = new Date().getMonth(), sel = tdy();
-$("pv").onclick = () => { if (--vm < 0) { vm = 11; vy--; } rCal(); };
-$("nx").onclick = () => { if (++vm > 11) { vm = 0; vy++; } rCal(); };
-function rCal(){
-  $("mT").textContent = new Date(vy, vm, 1).toLocaleDateString("nl-BE", { month:"long", year:"numeric" });
-  const off = (new Date(vy, vm, 1).getDay() + 6) % 7, n = new Date(vy, vm+1, 0).getDate();
-  let h = ["Ma","Di","Wo","Do","Vr","Za","Zo"].map(x => `<div class="w">${x}</div>`).join("");
-  for (let i=0;i<off;i++) h += "<div></div>";
-  for (let d=1; d<=n; d++){
-    const ds = I(new Date(vy, vm, d, 12)), l = S.logs[ds];
-    const per = S.starts.some(s => { const k = Math.round((P(ds) - P(s))/D); return k >= 0 && k < 5; });
-    h += `<div class="d${per ? " p" : ""}${ds === tdy() ? " t" : ""}${ds === sel ? " s" : ""}" data-d="${ds}">${d}<b>${l && l.m ? "•" : ""}</b></div>`;
-  }
-  $("cal").innerHTML = h;
-  const l = S.logs[sel];
-  $("dInfo").textContent = F(P(sel)) + ": " + (l && (l.m || l.s.length) ? (l.m || "") + " " + l.s.join(", ").toLowerCase() : "geen check-in");
-}
-$("cal").onclick = e => { const d = e.target.closest("[data-d]"); if (d){ sel = d.dataset.d; rCal(); } };
-
-/* remote + wensenlijstje */
-const rSos = () => { $("sos").innerHTML = CONFIG.buttons.map(b => `<a class="sos" href="${wa(b.msg)}">${b.label}</a>`).join(""); };
-function rWish(){
-  const box = $("wishes"); box.innerHTML = "";
-  S.wishes.forEach((w, i) => {
-    const row = document.createElement("div"); row.className = "item";
-    const s = document.createElement("span"); s.textContent = w;
-    const b = document.createElement("button"); b.textContent = "✕"; b.setAttribute("aria-label", "Verwijder");
-    b.onclick = () => { S.wishes.splice(i,1); save(); rWish(); };
-    row.append(s, b); box.appendChild(row);
-  });
-  $("sendWish").style.display = S.wishes.length ? "block" : "none";
-  $("sendWish").href = wa("Mijn wensenlijstje: " + S.wishes.join(", "));
-}
-function addWish(){ const v = $("wishIn").value.trim(); if (!v) return; S.wishes.push(v); $("wishIn").value = ""; save(); rWish(); }
-$("wishAdd").onclick = addWish;
-$("wishIn").onkeydown = e => { if (e.key === "Enter") addWish(); };
-
-
-const normPhone = v => { let d = v.replace(/\D/g, ""); if (d.startsWith("00")) d = d.slice(2); else if (d.startsWith("0")) d = "32" + d.slice(1); return d.length >= 10 && d.length <= 15 ? d : ""; };
-function askPhone(){ $("phIn").value = S.phone ? "+" + S.phone : ""; $("phErr").textContent = ""; $("setup").classList.add("open"); }
-$("phChange").onclick = askPhone;
-$("phSave").onclick = () => { const n = normPhone($("phIn").value); if (!n){ $("phErr").textContent = "Dat nummer lijkt niet te kloppen."; return; } S.phone = n; save(); $("setup").classList.remove("open"); render(); };
-$("bkMake").onclick = () => { const t = JSON.stringify(S); $("bk").value = t; $("bk").select(); try { navigator.clipboard.writeText(t); } catch(e){} };
-$("bkRestore").onclick = () => { try { const o = JSON.parse($("bk").value); if (!o || typeof o !== "object") throw 0; if (!confirm("Alle huidige gegevens vervangen door deze back-up?")) return;
-  S = Object.assign({ starts:[], len:28, logs:{}, wishes:[], gym:[], weights:[], water:{}, bottles:{}, pill:{}, goal:3, phone:"" }, o); save(); render(); $("bk").value = ""; } catch(e){ alert("Deze back-up is niet geldig."); } };
-function render(){ rHome(); rGym(); rCyc(); rWish(); rSos(); $("phShow").textContent = S.phone ? "+" + S.phone : "niet ingesteld"; }
-render();
-if (!S.phone) askPhone();
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
-setTimeout(() => hearts(14), 300);
-document.addEventListener("visibilitychange", () => { if (!document.hidden){ sel = tdy(); render(); hearts(8); } });
-</script>
-</body>
-</html>
+/* ====== CONFIG (hier pas je teksten aan) ====== */
+const CFG={name:"Guzem",title:"Guzem benim's remote",short:"Guzem",
+love:["Je hoeft vandaag niets te bewijzen. Ik ben al trots op je.","Wat je ook voelt vandaag, ik ben er voor je.","Ik denk aan je, ook als ik het niet zeg.","Je bent genoeg, precies zoals je bent.","Rust is ook vooruitgang.","Ik hou van hoe je lacht als je denkt dat niemand kijkt.","Een stap tegelijk. Ik loop mee.","Je maakt mijn dagen mooier."],
+comfortNote:"Je hoeft niets te doen. Adem even rustig, ik ben er voor je.",
+hug:"ik heb een hele dikke knuffel van u nodig",
+comfort:[{l:"Thee",m:"kunde gij thee maken voor mij?"},{l:"Kruik",m:"maak ne kruik voor mij pls, mijn buik doet zeer"},{l:"Eten of snacks",m:"ik heb honger of zin in iets lekkers, kunde gij iets meebrengen?"},{l:"Gezelschap",m:"ik wil gezelschap, kunde gij bij mij komen of bellen?"},{l:"Zware dag",m:"ik heb een zware dag, wees een beetje lief tegen mij"}],
+buttons:[
+{label:"Buikpijn / Krampen",msg:"Schat, ik heb last van krampen (kmoet lowkey kaka doen), kun je een kruik of pijnstiller voor brengen? 🥺"},
+{label:"Honger / Cravings",msg:"rat je bent zo een dikzak da ik nu ook honger heb gekregen :) 🍫🍕"},
+{label:"mo nodig",msg:"mo ik wil u nu echt, waarom zijn we nog ni getrouwd, allemaal door jou:( 🫂"},
+{label:"lowkey closing my eyes",msg:"rat, ik ga ni slapen ma mijn ogen gewoon rusten okkii 😴"},
+{label:"kruik pls",msg:"rat maak ne kruik voor mij pls, mijn buik doet zeer 🌡️🥺"},
+{label:"thee bro",msg:"kunde gij thee maken voor mij? 🍵🥺"},
+{label:"film?",msg:"rat zin in filmavond met snacks? 🎬🍿"},
+{label:"ik ben emotioneel",msg:"ik ben vandaag extra emotioneel, wees een beetje lief tegen mij 🥺💗"}],
+moods:["Goed","Lief","Meh","Verdrietig","Boos","Moe"],
+symptoms:["Krampen","Hoofdpijn","Rugpijn","Opgeblazen","Misselijk","Gevoelige borsten","Acne","Emotioneel","Zin in zoet"],
+types:["Kracht","Cardio","Benen","Billen","Buik","Yoga","Wandelen"],
+groups:["Borst","Rug","Schouders","Armen","Benen","Billen","Core"],
+bottleGoal:2,bottleMl:750};
+/* ============================================== */
+const $=i=>document.getElementById(i),D=864e5,KEY="cyclus-app-v1",SNAP="guzem-snap",LOCK="guzem-lock";
+const UI={tab:"today",sub:"gym",wr:30,sr:30,gt:"",ql:0,pt:"",vy:new Date().getFullYear(),vm:new Date().getMonth(),sel:"",cf:0,ph:0};
+const IC={home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',dumb:'<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>',cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',heart:'<path d="M12 21s-7-4.4-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.6-9.5 9-9.5 9z"/>',chev:'<path d="m9 6 6 6-6 6"/>',x:'<path d="M6 6l12 12M18 6 6 18"/>'};
+const ic=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const T=()=>{const t=new Date();t.setHours(12,0,0,0);return t},I=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),P=s=>{const[a,b,c]=s.split("-").map(Number);return new Date(a,b-1,c,12)},tdy=()=>I(T()),F=d=>d.toLocaleDateString("nl-BE",{weekday:"short",day:"numeric",month:"short"}),FD=s=>F(P(s));
+const dur=m=>Math.floor(m/60)+" u "+String(m%60).padStart(2,"0")+" min",fk=n=>String(n).replace(".",","),num=v=>parseFloat(String(v||"").replace(",","."));
+/* data + migratie */
+const DEF=()=>({v:2,starts:[],len:28,logs:{},wishes:[],gym:[],weights:[],water:{},bottles:{},pill:{},goal:3,phone:"",sleep:[],ex:["Chest press|Borst","Lat pulldown|Rug","Shoulder press|Schouders","Biceps curl|Armen","Squat|Benen","Hip thrust|Billen","Plank|Core"].map(x=>({n:x.split("|")[0],g:x.split("|")[1]})),sets:[],cd:"",bk:0,idle:5});
+function norm(o){const d=DEF();["starts","wishes","gym","weights","sleep","ex","sets"].forEach(k=>{if(!Array.isArray(o[k]))o[k]=d[k]});["logs","water","bottles","pill"].forEach(k=>{if(!o[k]||typeof o[k]!=="object"||Array.isArray(o[k]))o[k]={}});o.v=2;return o}
+let S=DEF(),startMsg="";
+try{const raw=localStorage.getItem(KEY);if(raw){try{S=norm(Object.assign(DEF(),JSON.parse(raw)))}catch(e){try{localStorage.setItem("guzem-corrupt",raw)}catch(_){}S=DEF();startMsg="Opgeslagen gegevens waren beschadigd. Een kopie is bewaard."}}}catch(e){}
+const save=()=>{try{const j=JSON.stringify(S),t=tdy();localStorage.setItem(KEY,j);let s=JSON.parse(localStorage.getItem(SNAP)||"[]");if(s.length&&s[s.length-1].d===t)s[s.length-1].j=j;else s.push({d:t,j});localStorage.setItem(SNAP,JSON.stringify(s.slice(-3)))}catch(e){}};
+function notice(m){const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),3200);return false}
+const wa=t=>"https://wa.me/"+(S.phone||"")+"?text="+encodeURIComponent(t);
+const normPhone=v=>{let d=v.replace(/\D/g,"");if(d.startsWith("00"))d=d.slice(2);else if(d.startsWith("0"))d="32"+d.slice(1);return d.length>=10&&d.length<=15?d:""};
+/* helpers */
+const chip=(a,v,on,l)=>`<button class="chip${on?" on":""}" data-a="${a}" data-v="${esc(v)}">${esc(l||v)}</button>`;
+const inp=(id,at,def="")=>`<input id="${id}" ${at} value="${esc(UI[id]??def)}">`;
+const RG=[[7,"7 d"],[30,"30 d"],[90,"3 m"],[180,"6 m"],[0,"Alles"]],inR=(d,r)=>!r||P(d)>=new Date(T()-r*D);
+const rb=(a,c,l)=>`<div class="chips">${(l||RG).map(r=>chip(a,r[0],c===r[0],r[1])).join("")}</div>`;
+const lg=()=>S.logs[tdy()]||{m:"",s:[]},ls=()=>S.starts.length?P(S.starts[S.starts.length-1]):null,cday=()=>{const l=ls();return l?Math.round((T()-l)/D)+1:0};
+const wkS=()=>{const d=T();d.setDate(d.getDate()-((d.getDay()+6)%7));return I(d)},wk=()=>S.gym.filter(g=>g.d>=wkS()).length;
+const best=n=>S.sets.filter(s=>s.e===n).reduce((m,s)=>s.kg>m?s.kg:m,0),bot=()=>S.bottles[tdy()]||0;
+const streak=()=>{let n=0,d=T();if(!S.pill[I(d)])d=new Date(d-D);while(S.pill[I(d)]){n++;d=new Date(d-D)}return n};
+const stale=()=>Date.now()-(S.bk||0)>14*D&&(S.sets.length+S.gym.length+S.weights.length+S.sleep.length+S.starts.length+Object.keys(S.logs).length)>0;
+const checkMsg=l=>(l.m||l.s.length)?"Mijn check-in van vandaag: "+(l.m?"ik voel me "+l.m.toLowerCase()+". ":"")+(l.s.length?"Last van: "+l.s.join(", ").toLowerCase()+".":""):"Check-in: ik wil even laten weten hoe het gaat";
+/* grafieken */
+function lineSvg(a){if(a.length<2)return'<p class="muted">Voeg minstens twee metingen toe voor een grafiek.</p>';
+const W=320,H=130,p=14,v=a.map(x=>x.kg),mn=Math.min(...v),mx=Math.max(...v),r=mx-mn||1,t0=P(a[0].d).getTime(),sp=P(a[a.length-1].d).getTime()-t0||1;
+const pts=a.map(x=>[p+(P(x.d).getTime()-t0)/sp*(W-2*p),H-p-(x.kg-mn)/r*(H-2*p),x]);
+return`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Gewichtsverloop"><polyline fill="none" stroke="var(--rs)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="${pts.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join(" ")}"/>${pts.map(q=>`<circle cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="${q[2].d+""===UI.pt?6:4}" fill="${q[2].d===UI.pt?"var(--rs)":"#fff"}" stroke="var(--rs)" stroke-width="2" data-a="pt" data-v="${q[2].d}" style="cursor:pointer"/>`).join("")}</svg><div class="muted">Laagste ${fk(mn.toFixed(1))} kg · hoogste ${fk(mx.toFixed(1))} kg</div>`}
+function barSvg(a){if(!a.length)return'<p class="muted">Nog geen nachten in deze periode.</p>';a=a.slice(-30);const W=320,H=110,w=W/a.length;
+return`<svg viewBox="0 0 ${W} ${H+16}" width="100%" role="img" aria-label="Slaapduur per nacht">${a.map((s,i)=>{const h=Math.min(s.m/60,12)/12*H;return`<rect x="${(i*w+w*.18).toFixed(1)}" y="${(H-h).toFixed(1)}" width="${(w*.64).toFixed(1)}" height="${h.toFixed(1)}" rx="3" fill="var(--rs)" opacity=".75"/>`}).join("")}<text x="0" y="${H+13}" font-size="10" fill="var(--mu)">${FD(a[0].d)}</text><text x="${W}" y="${H+13}" font-size="10" fill="var(--mu)" text-anchor="end">${FD(a[a.length-1].d)}</text></svg>`}
+/* views */
+function cdCard(){if(!S.cd)return`<section class="card"><small>Volgende date</small><p class="muted" style="margin:6px 0 0">Stel in onder Wij wanneer jullie elkaar weer zien.</p><button class="btn ghost" data-a="goto" data-t="us">Datum instellen</button></section>`;
+const ms=new Date(S.cd)-new Date();if(isNaN(ms))return"";if(ms<=0)return`<section class="card"><p class="serif" style="font-size:22px;margin:0">Het is zover ♡</p></section>`;
+const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
+return`<section class="card"><div class="cdn"><div><b>${d}</b><small>dagen</small></div><div><b>${h}</b><small>uur</small></div><div><b>${m}</b><small>min</small></div></div><p class="serif" style="font-size:19px;margin:14px 0 4px">Until I get to see you again ♡</p><small>${new Date(S.cd).toLocaleString("nl-BE",{weekday:"long",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"})}</small></section>`}
+function vToday(){const t=tdy(),l=lg(),took=!!S.pill[t],d=cday(),k=streak(),n=Math.floor((T()-new Date(T().getFullYear(),0,0))/D),sl=S.sleep[S.sleep.length-1],w=S.weights[S.weights.length-1];
+return`<p class="note">${esc(CFG.love[n%CFG.love.length])}</p>${cdCard()}
+<button class="comfort" data-a="cfo">${ic("heart")}<span><b>Comfort</b><small>Een rustig plekje, met alles binnen handbereik</small></span>${ic("chev")}</button>
+<div class="tiles"><button class="tile${took?" on":""}" data-a="pill"><small>Pil${k?" · "+k+" dagen op rij":""}</small><b>${took?"Genomen":"Nog niet"}</b></button>
+<button class="tile" data-a="wp"><small>Water · tik voor +1 drinkbus</small><b>${bot()} / ${CFG.bottleGoal}</b></button>
+<button class="tile" data-a="goto" data-t="well" data-s="gym"><small>Workouts deze week</small><b>${wk()} / ${S.goal}</b></button>
+<button class="tile" data-a="goto" data-t="cyc"><small>Cyclusdag</small><b>${d||"–"}</b></button>
+<button class="tile" data-a="goto" data-t="well" data-s="sl"><small>Laatste nacht</small><b>${sl?dur(sl.m):"–"}</b></button>
+<button class="tile" data-a="goto" data-t="well" data-s="wt"><small>Gewicht</small><b>${w?fk(w.kg.toFixed(1))+" kg":"–"}</b></button></div>
+<section class="card"><h2>Hoe voel je je vandaag?</h2><div class="chips">${CFG.moods.map(m=>chip("mood",m,l.m===m)).join("")}</div><div class="chips">${CFG.symptoms.map(s=>chip("sym",s,l.s.includes(s))).join("")}</div><a class="btn ghost" href="${wa(checkMsg(l))}">Stuur mijn check-in</a></section>
+${stale()?`<p class="muted" style="text-align:center">Je hebt een tijdje geen back-up gemaakt. <a href="#" data-a="goto" data-t="us" style="color:var(--rs)">Nu doen</a></p>`:""}`}
+const seg=(a,c,l)=>`<div class="seg" role="tablist">${l.map(x=>`<button class="${c===x[0]?"on":""}" data-a="${a}" data-v="${x[0]}">${x[1]}</button>`).join("")}</div>`;
+function vWell(){const s=UI.sub;return seg("sub",s,[["gym","Gym"],["wt","Gewicht"],["wa","Water"],["sl","Slaap"]])+({gym:vGym,wt:vWt,wa:vWa,sl:vSl}[s])()}
+function vGym(){const w=wk(),g=S.goal,sel=UI.exSel||(S.ex[0]||{}).n||"",pv=[...S.sets].reverse().find(x=>x.e===sel),names=[...new Set(S.sets.map(x=>x.e))];
+const opts=CFG.groups.map(gr=>{const l=S.ex.filter(e=>e.g===gr);return l.length?`<optgroup label="${gr}">${l.map(e=>`<option${e.n===sel?" selected":""}>${esc(e.n)}</option>`).join("")}</optgroup>`:""}).join("");
+return`<section class="card"><h2>Weekdoel</h2><div class="bar"><i style="width:${Math.min(100,w/g*100)}%"></i></div><div class="row"><span class="muted">${w} van ${g} sessies deze week</span><span class="step" style="justify-content:flex-end"><button data-a="gm" aria-label="Minder">−</button><b>${g}</b><button data-a="gp" aria-label="Meer">+</button></span></div></section>
+<section class="card"><h2>Oefening loggen</h2><select id="exSel">${opts||"<option>Geen oefeningen</option>"}</select><p class="muted" style="margin:6px 0">${pv?`Vorige keer: ${fk(pv.kg)} kg × ${pv.r} × ${pv.n} (${FD(pv.d)})`:"Nog niet eerder gelogd"}</p>
+<div class="row">${inp("kg",'type="text" inputmode="decimal" placeholder="kg" aria-label="Gewicht"')}${inp("rp",'type="number" inputmode="numeric" placeholder="reps" aria-label="Herhalingen"')}${inp("st",'type="number" inputmode="numeric" placeholder="sets" aria-label="Sets"')}</div><button class="btn" data-a="setadd">Set opslaan</button>
+<div class="row"><input id="exN" placeholder="Nieuwe oefening" value="${esc(UI.exN||"")}"><select id="exG" style="flex:.7">${CFG.groups.map(x=>`<option${x===UI.exG?" selected":""}>${x}</option>`).join("")}</select><button class="btn sm ghost" data-a="exadd">Voeg toe</button></div></section>
+<section class="card"><h2>Persoonlijke records</h2>${names.length?names.map(n=>{const b=S.sets.filter(x=>x.e===n).reduce((m,x)=>x.kg>=m.kg?x:m);return`<div class="item"><span>${esc(n)}<br><small>${FD(b.d)}</small></span><b class="serif" style="font-size:19px">${fk(b.kg)} kg × ${b.r}</b></div>`}).join(""):'<p class="muted">Je records verschijnen hier zodra je een set logt.</p>'}</section>
+<section class="card"><h2>Sessie loggen</h2><div class="chips">${CFG.types.map(t=>chip("gt",t,UI.gt===t)).join("")}</div><div class="row">${inp("mn",'type="number" inputmode="numeric" placeholder="Minuten (optioneel)"')}<button class="btn" data-a="sess">Opslaan</button></div></section>
+<section class="card"><h2>Recent</h2>${[...S.sets.map((x,i)=>({d:x.d,t:esc(x.e)+" · "+fk(x.kg)+" kg × "+x.r+" × "+x.n,a:"delset",i})),...S.gym.map((x,i)=>({d:x.d,t:esc(x.t)+(x.m?" · "+x.m+" min":""),a:"delgym",i}))].sort((a,b)=>a.d<b.d?1:-1).slice(0,8).map(x=>`<div class="item"><span>${x.t}<br><small>${FD(x.d)}</small></span><button data-a="${x.a}" data-i="${x.i}" aria-label="Verwijder">${ic("x")}</button></div>`).join("")||'<p class="muted">Nog niets gelogd.</p>'}</section>`}
+function vWt(){const ws=S.weights,f=ws.filter(x=>inR(x.d,UI.wr)),la=ws[ws.length-1],pr=ws[ws.length-2],df=la&&pr?la.kg-pr.kg:0,pt=ws.find(x=>x.d===UI.pt)||f[f.length-1];
+return`<section class="card"><div style="display:flex;align-items:baseline;gap:10px"><b class="serif" style="font-size:34px;color:var(--rs)">${la?fk(la.kg.toFixed(1))+" kg":"–"}</b><span class="muted">${la&&pr?`${df>0?"+":""}${fk(df.toFixed(1))} kg t.o.v. ${fk(pr.kg.toFixed(1))} kg op ${FD(pr.d)}`:"Voeg je eerste meting toe"}</span></div>${rb("wr",UI.wr)}${lineSvg(f)}${pt&&f.length>1?`<p class="muted">${FD(pt.d)}: ${fk(pt.kg.toFixed(1))} kg</p>`:""}<div class="row">${inp("wtv",'type="text" inputmode="decimal" placeholder="Gewicht in kg"')}<button class="btn" data-a="wtadd">Opslaan</button></div></section>
+<section class="card"><h2>Metingen</h2>${[...f].reverse().map(x=>`<div class="item"><span>${fk(x.kg.toFixed(1))} kg<br><small>${FD(x.d)}</small></span><button data-a="delwt" data-v="${x.d}" aria-label="Verwijder">${ic("x")}</button></div>`).join("")||'<p class="muted">Geen metingen in deze periode.</p>'}</section>`}
+function vWa(){const n=bot(),L=n*CFG.bottleMl/1000;return`<section class="card"><b class="serif" style="font-size:34px;color:var(--rs)">${n} / ${CFG.bottleGoal}</b> <span class="muted">drinkbussen · ${fk(L.toFixed(1))} liter</span><div class="bar"><i style="width:${Math.min(100,n/CFG.bottleGoal*100)}%"></i></div><div class="row"><button class="btn ghost" data-a="wm" style="flex:1;margin:0">− 1 drinkbus</button><button class="btn" data-a="wp" style="flex:1">+ 1 drinkbus</button></div><button class="btn ghost" data-a="w0" style="border-color:var(--ln);color:var(--mu)">Vandaag terugzetten op 0</button></section>`}
+function vSl(){const f=S.sleep.filter(x=>inR(x.d,UI.sr)),av=f.length?f.reduce((s,x)=>s+x.m,0)/f.length:0,q=f.filter(x=>x.q),aq=q.length?q.reduce((s,x)=>s+x.q,0)/q.length:0;
+return`<section class="card"><h2>Slaap loggen</h2><div class="row"><label class="muted">Naar bed${inp("bed",'type="time"',"23:00")}</label><label class="muted">Wakker${inp("wake",'type="time"',"07:00")}</label></div><p class="muted" style="margin:10px 0 6px">Hoe sliep je?</p><div class="chips">${[1,2,3,4,5].map(n=>chip("ql",n,UI.ql===n)).join("")}</div>${inp("sln",'placeholder="Notitie (optioneel)" maxlength="120"')}<button class="btn" data-a="slsave">Opslaan voor vandaag</button><p class="muted">Zelf ingevoerd, dus een schatting en geen meting zoals bij een smartwatch.</p></section>
+<section class="card"><h2>Overzicht</h2>${rb("sr",UI.sr,[[7,"7 d"],[30,"30 d"],[0,"Alles"]])}<div class="row"><div><small>Gemiddelde duur</small><br><b class="serif" style="font-size:22px">${f.length?dur(Math.round(av)):"–"}</b></div><div><small>Gemiddelde kwaliteit</small><br><b class="serif" style="font-size:22px">${q.length?fk(aq.toFixed(1))+" / 5":"–"}</b></div></div>${barSvg(f)}</section>
+<section class="card"><h2>Nachten</h2>${[...f].reverse().map(x=>`<div class="item"><span>${dur(x.m)}${x.q?" · "+x.q+"/5":""}<br><small>${FD(x.d)} · ${x.b}–${x.w}${x.n?" · "+esc(x.n):""}</small></span><button data-a="delsl" data-v="${x.d}" aria-label="Verwijder">${ic("x")}</button></div>`).join("")||'<p class="muted">Nog geen nachten in deze periode.</p>'}</section>`}
+function vCyc(){const l=ls(),d=cday();let ph="Tik hieronder om te starten",nd="–",ni="–",off=578,hs="";
+if(l){const nx=new Date(l.getTime()+S.len*D),lf=Math.round((nx-T())/D);ph=d<=5?"Menstruatie":d<S.len-16?"Opbouwfase":d<=S.len-12?"Vruchtbare periode (schatting)":"Rustige fase";nd=F(nx);ni=lf>1?lf+" dagen":lf===1?"morgen":lf===0?"vandaag":Math.abs(lf)+(Math.abs(lf)===1?" dag":" dagen")+" te laat";off=578*(1-Math.min(d/S.len,1));hs="Laatste start: "+F(l)}
+const vy=UI.vy,vm=UI.vm,o=(new Date(vy,vm,1).getDay()+6)%7,n=new Date(vy,vm+1,0).getDate(),sel=UI.sel||tdy();let c=["Ma","Di","Wo","Do","Vr","Za","Zo"].map(x=>`<div class="w">${x}</div>`).join("")+"<div></div>".repeat(o);
+for(let i=1;i<=n;i++){const ds=I(new Date(vy,vm,i,12)),per=S.starts.some(s=>{const k=Math.round((P(ds)-P(s))/D);return k>=0&&k<5}),g=S.logs[ds];c+=`<button class="${per?"p ":""}${ds===tdy()?"t ":""}${ds===sel?"s":""}" data-a="cald" data-v="${ds}">${i}${g&&(g.m||g.s.length)?"<i></i>":""}</button>`}
+const g=S.logs[sel],pl=[6,5,4,3,2,1,0].map(k=>{const x=new Date(T()-k*D),s=I(x);return`<button class="${S.pill[s]?"on":""}" data-a="pillD" data-v="${s}" aria-label="Pil ${FD(s)}"><i>${S.pill[s]?"✓":""}</i>${x.toLocaleDateString("nl-BE",{weekday:"short"}).slice(0,2)}</button>`}).join("");
+return`<section class="card"><div class="ring"><svg width="170" height="170" viewBox="0 0 210 210"><circle cx="105" cy="105" r="92" fill="none" stroke="var(--rl)" stroke-width="12"/><circle cx="105" cy="105" r="92" fill="none" stroke="var(--rs)" stroke-width="12" stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="${off}"/></svg><div><b>${d||"–"}</b><small>cyclusdag</small></div></div><p style="text-align:center;font-weight:600;margin:0 0 10px">${ph}</p>
+<div class="row" style="text-align:center"><div><b class="serif" style="font-size:18px">${nd}</b><br><small>volgende menstruatie (schatting)</small></div><div><b class="serif" style="font-size:18px">${ni}</b><br><small>over</small></div></div>
+<button class="btn" data-a="start">Mijn menstruatie is vandaag begonnen</button><div class="row">${inp("eDate",'type="date" max="'+tdy()+'"')}<button class="btn sm ghost" data-a="earlier">Eerdere datum</button></div><p class="muted" style="text-align:center;margin:8px 0 0">${hs}</p></section>
+<section class="card"><h2>Pil, laatste 7 dagen</h2><div class="pills">${pl}</div></section>
+<section class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><button class="chip" data-a="calm" data-v="-1" aria-label="Vorige maand">‹</button><h2 style="margin:0;text-transform:capitalize">${new Date(vy,vm,1).toLocaleDateString("nl-BE",{month:"long",year:"numeric"})}</h2><button class="chip" data-a="calm" data-v="1" aria-label="Volgende maand">›</button></div><div class="cal">${c}</div><p class="muted" style="text-align:center;margin:10px 0 0">${FD(sel)}: ${g&&(g.m||g.s.length)?(g.m||"")+" "+g.s.join(", ").toLowerCase():"geen check-in"}</p></section>
+<section class="card"><div class="row"><span>Gemiddelde cyclus (dagen)</span><span class="step" style="justify-content:flex-end"><button data-a="lm" aria-label="Korter">−</button><b>${S.len}</b><button data-a="lp" aria-label="Langer">+</button></span></div><button class="btn ghost" data-a="undo" style="border-color:var(--ln);color:var(--mu)">Laatste startdatum verwijderen</button></section>`}
+function vUs(){const lk=!!localStorage.getItem(LOCK),sn=JSON.parse(localStorage.getItem(SNAP)||"[]");
+return`${cdCard()}<section class="card"><h2>Volgende date</h2>${inp("cdIn",'type="datetime-local"',S.cd)}<div class="row"><button class="btn" data-a="cdsave" style="margin:0">Opslaan</button>${S.cd?'<button class="btn ghost" data-a="cdx" style="margin:0">Wissen</button>':""}</div></section>
+<button class="comfort" data-a="cfo">${ic("heart")}<span><b>Comfort</b><small>Open het rustige scherm</small></span>${ic("chev")}</button>
+<section class="card"><h2>Berichten</h2><div class="grid">${CFG.buttons.map(b=>`<a class="msg" href="${wa(b.msg)}">${esc(b.label)}</a>`).join("")}</div></section>
+<section class="card"><h2>Wensenlijstje</h2><div class="row" style="margin-top:0">${inp("wishIn",'placeholder="Bijv. chocolade, thee, film"')}<button class="btn sm" data-a="wishadd">+</button></div>${S.wishes.map((w,i)=>`<div class="item"><span>${esc(w)}</span><button data-a="wishdel" data-i="${i}" aria-label="Verwijder">${ic("x")}</button></div>`).join("")}${S.wishes.length?`<a class="btn ghost" href="${wa("Mijn wensenlijstje: "+S.wishes.join(", "))}">Stuur lijstje</a>`:""}</section>
+<section class="card"><h2>Instellingen</h2><div class="item" style="border:0;padding-top:0"><span>WhatsApp-nummer<br><small>${S.phone?"+"+S.phone:"niet ingesteld"}</small></span><button class="btn sm ghost" data-a="pho">Wijzigen</button></div></section>
+<section class="card"><h2>Privacy en vergrendeling</h2><p class="muted" style="margin-top:0">Alles blijft op dit toestel, in de opslag van de browser. Er zijn geen analyses, geen trackers en geen server. De PIN houdt nieuwsgierige blikken tegen, maar versleutelt je gegevens niet en vervangt de beveiliging van je telefoon niet.</p>${inp("pin",'type="password" inputmode="numeric" maxlength="8" placeholder="PIN van 4 tot 8 cijfers" autocomplete="off"')}<div class="row"><button class="btn" data-a="pinset" style="margin:0">${lk?"PIN wijzigen":"PIN instellen"}</button>${lk?'<button class="btn ghost" data-a="pinoff" style="margin:0">PIN uitzetten</button>':""}</div>${lk?`<p class="muted" style="margin-bottom:4px">Wijzigen: typ de nieuwe PIN in het veld en bevestig daarna met je huidige PIN. Uitzetten: typ je huidige PIN in het veld.</p><label class="muted">Vergrendel na afwezigheid van<select id="idle">${[[0,"direct"],[1,"1 minuut"],[5,"5 minuten"],[15,"15 minuten"]].map(x=>`<option value="${x[0]}"${S.idle===x[0]?" selected":""}>${x[1]}</option>`).join("")}</select></label>`:""}</section>
+<section class="card"><h2>Back-up</h2><p class="muted" style="margin-top:0">Je gegevens worden bij elke wijziging bewaard, plus een automatische kopie per dag (laatste 3 dagen). Die kopieën staan in dezelfde opslag: wis je de browsergegevens of verwijder je de app, dan zijn ook die weg. Download daarom regelmatig een back-up. Laatste download: ${S.bk?new Date(S.bk).toLocaleDateString("nl-BE"):"nog nooit"}.</p><div class="row"><button class="btn" data-a="bkd" style="margin:0">Downloaden</button><button class="btn ghost" data-a="bkc" style="margin:0">Kopiëren</button></div><p class="muted" style="margin:14px 0 6px">Herstellen uit bestand of tekst:</p><input id="bkF" type="file" accept=".json,application/json"><textarea id="bkT" rows="2" placeholder="Of plak hier een gekopieerde back-up" style="margin-top:8px">${esc(UI.bkT||"")}</textarea><button class="btn ghost" data-a="bkr">Herstellen</button>${sn.length?`<p class="muted" style="margin:14px 0 6px">Automatische kopieën:</p>${sn.map((x,i)=>`<div class="item"><span>${FD(x.d)}</span><button class="btn sm ghost" data-a="snr" data-i="${i}">Herstel</button></div>`).join("")}`:""}</section>
+<section class="card"><h2>Alles wissen</h2><p class="muted" style="margin-top:0">Verwijdert alle gegevens, kopieën en de PIN van dit toestel.</p><button class="btn ghost" data-a="wipe">Alle gegevens wissen</button></section>`}
+const vComfort=()=>`<button class="btn sm ghost" data-a="cfx">Sluiten</button><div style="height:34px"></div><p class="note" style="font-size:24px">${esc(CFG.comfortNote)}</p><a class="hug" id="hug" role="button" data-a="hug">Knuffel</a><small>Tik om hem een knuffel te sturen</small><div class="grid" style="margin-top:30px">${CFG.comfort.map(c=>`<a class="msg" href="${wa(c.m)}">${esc(c.l)}</a>`).join("")}</div>`;
+const vPhone=()=>`<h2 style="margin-top:34px;font-size:26px">WhatsApp-nummer</h2><p class="muted">Naar welk nummer sturen de knoppen? Het wordt alleen op dit toestel bewaard.</p>${inp("phIn",'type="tel" inputmode="tel" placeholder="0470 12 34 56"',S.phone?"+"+S.phone:"")}<p class="muted">${UI.phE||""}</p><button class="btn" data-a="phsave">Opslaan</button>${S.phone?'<button class="btn ghost" data-a="phx">Annuleren</button>':""}`;
+function R(){const h=new Date().getHours();$("hd").textContent=T().toLocaleDateString("nl-BE",{weekday:"long",day:"numeric",month:"long"});$("hi").textContent=(h<6?"Goedenacht":h<12?"Goedemorgen":h<18?"Goedemiddag":"Goedenavond")+", "+CFG.name;
+$("v").innerHTML={today:vToday,well:vWell,cyc:vCyc,us:vUs}[UI.tab]();
+$("nav").innerHTML=[["today","Vandaag","home"],["well","Welzijn","dumb"],["cyc","Cyclus","cal"],["us","Wij","heart"]].map(x=>`<button class="${UI.tab===x[0]?"on":""}" data-a="tab" data-t="${x[0]}">${ic(x[2])}${x[1]}</button>`).join("");
+const o=UI.cf?vComfort():UI.ph?vPhone():"";$("ov").className="ov"+(UI.cf?" cf":"");$("ov").innerHTML=o;$("ov").hidden=!o}
+/* vergrendeling */
+const enc=new TextEncoder(),hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join(""),unhex=h=>new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));
+async function kd(pin,salt){const k=await crypto.subtle.importKey("raw",enc.encode(pin),"PBKDF2",false,["deriveBits"]);return hex(await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations:150000,hash:"SHA-256"},k,256))}
+async function chk(pin){const L=JSON.parse(localStorage.getItem(LOCK)||"null");return!!L&&await kd(pin,unhex(L.s))===L.h}
+let locked=!!localStorage.getItem(LOCK),hid=0;
+function lkR(){$("lk").hidden=!locked;$("lk").innerHTML=locked?`<h2 style="margin-top:80px;font-size:28px;text-align:center">${esc(CFG.name)}</h2><p class="muted" style="text-align:center">Vul je PIN in</p><input id="pn" type="password" inputmode="numeric" maxlength="8" autocomplete="off" style="text-align:center;font-size:22px" aria-label="PIN"><p class="muted" style="text-align:center">${UI.lkE||""}</p><button class="btn" data-a="unlock">Openen</button>`:""}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)hid=Date.now();else if(localStorage.getItem(LOCK)&&Date.now()-hid>(S.idle||0)*6e4){locked=true;lkR()}else if(!locked)R()});
+/* acties */
+const tog=d=>{if(S.pill[d])delete S.pill[d];else S.pill[d]=1};
+function addStart(ds){if(!ds||P(ds)>T())return notice("Kies een datum in het verleden of vandaag.");if(!S.starts.includes(ds))S.starts.push(ds);S.starts.sort()}
+function restore(txt){let o;try{o=JSON.parse(txt)}catch(e){return notice("Dit is geen geldige back-up.")}const d=o&&o.data||o;if(!d||typeof d!=="object"||!Array.isArray(d.starts)||!d.logs||typeof d.logs!=="object")return notice("Dit is geen geldige back-up.");if(!confirm("Alle huidige gegevens vervangen door deze back-up?"))return false;try{localStorage.setItem("guzem-prev",JSON.stringify(S))}catch(e){}S=norm(Object.assign(DEF(),d));UI.bkT="";notice("Hersteld")}
+const bkJ=()=>JSON.stringify({app:"guzem",v:2,at:new Date().toISOString(),data:S});
+const A={tab:b=>{UI.tab=b.dataset.t;scrollTo(0,0)},goto:b=>{UI.tab=b.dataset.t;if(b.dataset.s)UI.sub=b.dataset.s;scrollTo(0,0)},sub:b=>{UI.sub=b.dataset.v},
+pill:()=>tog(tdy()),pillD:b=>tog(b.dataset.v),wp:()=>{S.bottles[tdy()]=Math.min(20,bot()+1)},wm:()=>{S.bottles[tdy()]=Math.max(0,bot()-1)},w0:()=>{S.bottles[tdy()]=0},
+mood:b=>{const l=lg();l.m=l.m===b.dataset.v?"":b.dataset.v;S.logs[tdy()]=l},sym:b=>{const l=lg(),i=l.s.indexOf(b.dataset.v);i<0?l.s.push(b.dataset.v):l.s.splice(i,1);S.logs[tdy()]=l},
+gt:b=>{UI.gt=UI.gt===b.dataset.v?"":b.dataset.v},gm:()=>{S.goal=Math.max(1,S.goal-1)},gp:()=>{S.goal=Math.min(7,S.goal+1)},
+sess:()=>{S.gym.push({d:tdy(),t:UI.gt||CFG.types[0],m:parseInt(UI.mn)||0});UI.gt=UI.mn="";notice("Sessie opgeslagen")},delgym:b=>{S.gym.splice(+b.dataset.i,1)},
+exadd:()=>{const n=(UI.exN||"").trim().slice(0,40);if(!n)return notice("Geef de oefening een naam.");if(S.ex.some(e=>e.n.toLowerCase()===n.toLowerCase()))return notice("Die oefening bestaat al.");S.ex.push({n,g:UI.exG||CFG.groups[0]});UI.exSel=n;UI.exN=""},
+setadd:()=>{const n=UI.exSel||(S.ex[0]||{}).n,kg=num(UI.kg),r=parseInt(UI.rp),s=parseInt(UI.st)||1;if(!n||!(kg>=0)||!(r>0))return notice("Vul gewicht en herhalingen in.");const pr=S.sets.some(x=>x.e===n)&&kg>best(n);S.sets.push({d:tdy(),e:n,kg,r,n:s});UI.kg=UI.rp=UI.st="";notice(pr?"Nieuw record: "+fk(kg)+" kg":"Set opgeslagen")},delset:b=>{S.sets.splice(+b.dataset.i,1)},
+wr:b=>{UI.wr=+b.dataset.v},sr:b=>{UI.sr=+b.dataset.v},pt:b=>{UI.pt=b.dataset.v},
+wtadd:()=>{const v=num(UI.wtv);if(!(v>=20&&v<=300))return notice("Vul een gewicht tussen 20 en 300 kg in.");S.weights=S.weights.filter(x=>x.d!==tdy());S.weights.push({d:tdy(),kg:v});S.weights.sort((a,b)=>a.d<b.d?-1:1);UI.wtv=""},delwt:b=>{if(confirm("Deze meting verwijderen?"))S.weights=S.weights.filter(x=>x.d!==b.dataset.v)},
+ql:b=>{UI.ql=UI.ql===+b.dataset.v?0:+b.dataset.v},
+slsave:()=>{const b=UI.bed||"23:00",w=UI.wake||"07:00",m=((+w.slice(0,2))*60+ +w.slice(3)-(+b.slice(0,2))*60- +b.slice(3)+1440)%1440;if(!m)return notice("Bedtijd en wektijd zijn gelijk.");S.sleep=S.sleep.filter(x=>x.d!==tdy());S.sleep.push({d:tdy(),b,w,m,q:UI.ql||0,n:(UI.sln||"").trim().slice(0,120)});S.sleep.sort((a,b)=>a.d<b.d?-1:1);UI.ql=0;UI.sln=""},delsl:b=>{if(confirm("Deze nacht verwijderen?"))S.sleep=S.sleep.filter(x=>x.d!==b.dataset.v)},
+start:()=>addStart(tdy()),earlier:()=>{const r=addStart(UI.eDate);UI.eDate="";return r},lm:()=>{S.len=Math.max(20,S.len-1)},lp:()=>{S.len=Math.min(45,S.len+1)},undo:()=>{S.starts.pop()},
+calm:b=>{UI.vm+=+b.dataset.v;if(UI.vm<0){UI.vm=11;UI.vy--}if(UI.vm>11){UI.vm=0;UI.vy++}},cald:b=>{UI.sel=b.dataset.v},
+cdsave:()=>{const v=UI.cdIn??S.cd;if(!v||isNaN(new Date(v)))return notice("Kies een datum en tijd.");S.cd=v},cdx:()=>{S.cd="";UI.cdIn=""},
+wishadd:()=>{const v=(UI.wishIn||"").trim().slice(0,80);if(v){S.wishes.push(v);UI.wishIn=""}},wishdel:b=>{S.wishes.splice(+b.dataset.i,1)},
+cfo:()=>{UI.cf=1},cfx:()=>{UI.cf=0},hug:b=>{b.classList.add("go");setTimeout(()=>{location.href=wa(CFG.hug)},700);return false},
+pho:()=>{UI.ph=1;UI.phE=""},phx:()=>{UI.ph=0},phsave:()=>{const n=normPhone(UI.phIn||"");if(!n){UI.phE="Dat nummer lijkt niet te kloppen.";return}S.phone=n;UI.ph=0;UI.phIn=""},
+pinset:async()=>{const p=UI.pin||"";if(!/^\d{4,8}$/.test(p))return notice("Kies 4 tot 8 cijfers.");if(localStorage.getItem(LOCK)){const c=prompt("Huidige PIN:");if(!c||!await chk(c))return notice("Huidige PIN klopt niet.")}const s=crypto.getRandomValues(new Uint8Array(16));localStorage.setItem(LOCK,JSON.stringify({s:hex(s),h:await kd(p,s)}));UI.pin="";notice("PIN opgeslagen")},
+pinoff:async()=>{if(!UI.pin||!await chk(UI.pin))return notice("Typ je huidige PIN in het veld.");localStorage.removeItem(LOCK);UI.pin="";notice("PIN uitgezet")},
+unlock:async()=>{if(await chk($("pn").value)){locked=false;UI.lkE="";lkR();R()}else{UI.lkE="Onjuiste PIN.";lkR()}return false},
+bkd:()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([bkJ()],{type:"application/json"}));a.download="guzem-backup-"+tdy()+".json";document.body.appendChild(a);a.click();a.remove();S.bk=Date.now();notice("Back-up gedownload")},
+bkc:()=>{S.bk=Date.now();navigator.clipboard.writeText(bkJ()).then(()=>notice("Back-up gekopieerd"),()=>notice("Kopiëren lukte niet, gebruik Downloaden"))},
+bkr:()=>restore(UI.bkT||""),snr:b=>{const s=JSON.parse(localStorage.getItem(SNAP)||"[]")[+b.dataset.i];return s?restore(s.j):false},
+wipe:()=>{if(confirm("Alle gegevens op dit toestel definitief wissen?")&&confirm("Echt zeker? Dit kan niet ongedaan worden gemaakt.")){[KEY,SNAP,LOCK,"guzem-prev","guzem-corrupt"].forEach(k=>localStorage.removeItem(k));location.reload()}return false}};
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-a]");if(!b||!A[b.dataset.a])return;if(locked&&b.dataset.a!=="unlock")return;if(b.tagName==="A"&&!b.getAttribute("href"))e.preventDefault();if(b.getAttribute("href")==="#")e.preventDefault();const r=await A[b.dataset.a](b);if(r!==false){save();R()}});
+document.addEventListener("input",e=>{const t=e.target;if(t.id==="idle"){S.idle=+t.value;save()}else if(t.id&&t.id!=="bkF")UI[t.id]=t.value});
+document.addEventListener("change",e=>{const t=e.target;if(t.id==="exSel")R();if(t.id==="bkF"&&t.files[0]){const f=new FileReader();f.onload=()=>{if(restore(String(f.result))!==false&&!document.querySelector(".toast"))R();else R();save()};f.readAsText(t.files[0])}});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="pn")A.unlock()});
+UI.sel=tdy();if(!S.phone)UI.ph=1;
+if(startMsg)setTimeout(()=>notice(startMsg),500);
+lkR();R();save();
+setInterval(()=>{if(UI.tab==="today"&&!locked&&!UI.cf&&!UI.ph)R()},3e4);
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script></body></html>
