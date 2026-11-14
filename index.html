@@ -49,31 +49,33 @@ nav button{flex:1;max-width:110px;border:0;background:none;font-size:11px;color:
 .hug.go{animation:go .7s ease-out forwards}
 @keyframes br{50%{transform:scale(1.07)}}@keyframes go{to{transform:scale(1.35);opacity:.2}}
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 90px);transform:translateX(-50%);background:var(--tx);color:var(--bg);border-radius:12px;padding:10px 16px;z-index:60;font-size:14px}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.fl{position:fixed;top:-48px;z-index:30;pointer-events:none;opacity:0;animation:fall linear forwards}.fl svg{width:100%;height:100%;display:block}
+@keyframes fall{0%{opacity:0;transform:translate(0,0) rotate(0)}12%{opacity:.9}85%{opacity:.75}100%{opacity:0;transform:translate(var(--dx),112vh) rotate(var(--rt))}}
+@media(prefers-reduced-motion:reduce){.fl{display:none}*{animation:none!important;transition:none!important}}
 </style></head><body>
 <header><div class="sub" id="hd"></div><h1 id="hi"></h1></header>
 <main id="v"></main><nav id="nav"></nav><div class="ov" id="ov" hidden></div><div class="ov" id="lk" style="z-index:50" hidden></div>
 <script>
 /* ====== CONFIG (hier pas je teksten aan) ====== */
-const CFG={name:"Guzem",title:"Guzz benim's tracker",short:"Guzem",
-love:["dikzak doe kalm. Ik ben al trots op je.","Wat je ook voelt vandaag, ik ben er voor je.","Ik denk aan je, ook als ik het niet zeg.","Je bent genoeg, precies zoals je bent.","Rust is ook vooruitgang.","Ik hou van hoe je lacht als je denkt dat niemand kijkt.","Een stap tegelijk. Ik loop mee.","Je maakt mijn dagen mooier."],
+const CFG={name:"Guzem",title:"Guzem benim's remote",short:"Guzem",
+love:["Je hoeft vandaag niets te bewijzen. Ik ben al trots op je.","Wat je ook voelt vandaag, ik ben er voor je.","Ik denk aan je, ook als ik het niet zeg.","Je bent genoeg, precies zoals je bent.","Rust is ook vooruitgang.","Ik hou van hoe je lacht als je denkt dat niemand kijkt.","Een stap tegelijk. Ik loop mee.","Je maakt mijn dagen mooier."],
 comfortNote:"Je hoeft niets te doen. Adem even rustig, ik ben er voor je.",
-hug:"ik heb een fat ass knuffel van nodiggg",
-comfort:[{l:" nana Theetje",m:"kan je nana thee maken voor mij?"},{l:"Kruik",m:"vul een kruik voor mij pls, mijn buik doet pijn"},{l:"Eten of snacks",m:"ik heb honger en highkey zin in iets lekkers (ook in mo obv), kan je iets meebrengen?"},{l:"Gezelschap",m:"ik wil gezelschap, kan je afspreken of bellen?"},{l:"Zware dag",m:"ik heb een zware dag, wees een beetje liever tegen mij"}],
+hug:"ik heb een hele dikke knuffel van u nodig",
+comfort:[{l:"Thee",m:"kunde gij thee maken voor mij?"},{l:"Kruik",m:"maak ne kruik voor mij pls, mijn buik doet zeer"},{l:"Eten of snacks",m:"ik heb honger of zin in iets lekkers, kunde gij iets meebrengen?"},{l:"Gezelschap",m:"ik wil gezelschap, kunde gij bij mij komen of bellen?"},{l:"Zware dag",m:"ik heb een zware dag, wees een beetje lief tegen mij"}],
 buttons:[
 {label:"Buikpijn / Krampen",msg:"Schat, ik heb last van krampen (kmoet lowkey kaka doen), kun je een kruik of pijnstiller voor brengen? 🥺"},
 {label:"Honger / Cravings",msg:"rat je bent zo een dikzak da ik nu ook honger heb gekregen :) 🍫🍕"},
 {label:"mo nodig",msg:"mo ik wil u nu echt, waarom zijn we nog ni getrouwd, allemaal door jou:( 🫂"},
 {label:"lowkey closing my eyes",msg:"rat, ik ga ni slapen ma mijn ogen gewoon rusten okkii 😴"},
-{label:"kruik pls",msg:"rat maak een kruik voor mij pls, mijn buik doet pijn 🌡️🥺"},
-{label:"nana theetje",msg:"kan je nana thee maken voor mij plss? 🍵🥺"},
-{label:"film/serie?",msg:"rat zin in film/serie avond? 🎬🍿"},
-{label:"ik ben emo",msg:"ik ben vandaag extra emo, wees een beetje liever tegen mij 🥺💗"}],
-moods:["life's beautiful","goodd","Meh I guess","emo","Boos","Moe","geïrriteerd"],
-symptoms:["Krampen","Hoofdpijn","Rugpijn","bloated","Misselijk","Gevoelige borsten","Acne","Emo","Zin in dessert"],
-types:["upper","Benen","Billen (pillow)","abs","Wandelen"],
-groups:["chest","back","Schouders","Armen","lower","Core"],
-bottleGoal:3,bottleMl:580};
+{label:"kruik pls",msg:"rat maak ne kruik voor mij pls, mijn buik doet zeer 🌡️🥺"},
+{label:"thee bro",msg:"kunde gij thee maken voor mij? 🍵🥺"},
+{label:"film?",msg:"rat zin in filmavond met snacks? 🎬🍿"},
+{label:"ik ben emotioneel",msg:"ik ben vandaag extra emotioneel, wees een beetje lief tegen mij 🥺💗"}],
+moods:["Goed","Lief","Meh","Verdrietig","Boos","Moe"],
+symptoms:["Krampen","Hoofdpijn","Rugpijn","Opgeblazen","Misselijk","Gevoelige borsten","Acne","Emotioneel","Zin in zoet"],
+types:["Kracht","Cardio","Benen","Billen","Buik","Yoga","Wandelen"],
+groups:["Borst","Rug","Schouders","Armen","Benen","Billen","Core"],
+bottleGoal:2,bottleMl:750};
 /* ============================================== */
 const $=i=>document.getElementById(i),D=864e5,KEY="cyclus-app-v1",SNAP="guzem-snap",LOCK="guzem-lock";
 const UI={tab:"today",sub:"gym",wr:30,sr:30,gt:"",ql:0,pt:"",vy:new Date().getFullYear(),vm:new Date().getMonth(),sel:"",cf:0,ph:0};
@@ -171,13 +173,17 @@ function R(){const h=new Date().getHours();$("hd").textContent=T().toLocaleDateS
 $("v").innerHTML={today:vToday,well:vWell,cyc:vCyc,us:vUs}[UI.tab]();
 $("nav").innerHTML=[["today","Vandaag","home"],["well","Welzijn","dumb"],["cyc","Cyclus","cal"],["us","Wij","heart"]].map(x=>`<button class="${UI.tab===x[0]?"on":""}" data-a="tab" data-t="${x[0]}">${ic(x[2])}${x[1]}</button>`).join("");
 const o=UI.cf?vComfort():UI.ph?vPhone():"";$("ov").className="ov"+(UI.cf?" cf":"");$("ov").innerHTML=o;$("ov").hidden=!o}
+/* bloemen */
+const FL='<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="#f4c2d1">'+[0,72,144,216,288].map(a=>`<ellipse cx="12" cy="6.4" rx="3.6" ry="4.8" transform="rotate(${a} 12 12)"/>`).join("")+'</g><circle cx="12" cy="12" r="2.6" fill="#fbe6c8"/></svg>';
+function bloom(n=16){if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;const r=(a,b)=>a+Math.random()*(b-a);
+for(let i=0;i<n;i++){const e=document.createElement("span"),z=r(16,34);e.className="fl";e.innerHTML=FL;e.style.cssText=`left:${r(0,94)}%;width:${z}px;height:${z}px;animation-duration:${r(5,9)}s;animation-delay:${r(0,1.8)}s;--dx:${r(-70,70)}px;--rt:${r(-200,200)}deg`;document.body.appendChild(e);setTimeout(()=>e.remove(),12500)}}
 /* vergrendeling */
 const enc=new TextEncoder(),hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join(""),unhex=h=>new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));
 async function kd(pin,salt){const k=await crypto.subtle.importKey("raw",enc.encode(pin),"PBKDF2",false,["deriveBits"]);return hex(await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations:150000,hash:"SHA-256"},k,256))}
 async function chk(pin){const L=JSON.parse(localStorage.getItem(LOCK)||"null");return!!L&&await kd(pin,unhex(L.s))===L.h}
 let locked=!!localStorage.getItem(LOCK),hid=0;
 function lkR(){$("lk").hidden=!locked;$("lk").innerHTML=locked?`<h2 style="margin-top:80px;font-size:28px;text-align:center">${esc(CFG.name)}</h2><p class="muted" style="text-align:center">Vul je PIN in</p><input id="pn" type="password" inputmode="numeric" maxlength="8" autocomplete="off" style="text-align:center;font-size:22px" aria-label="PIN"><p class="muted" style="text-align:center">${UI.lkE||""}</p><button class="btn" data-a="unlock">Openen</button>`:""}
-document.addEventListener("visibilitychange",()=>{if(document.hidden)hid=Date.now();else if(localStorage.getItem(LOCK)&&Date.now()-hid>(S.idle||0)*6e4){locked=true;lkR()}else if(!locked)R()});
+document.addEventListener("visibilitychange",()=>{if(document.hidden)hid=Date.now();else if(localStorage.getItem(LOCK)&&Date.now()-hid>(S.idle||0)*6e4){locked=true;lkR()}else if(!locked){R();if(Date.now()-hid>3e4)bloom(10)}});
 /* acties */
 const tog=d=>{if(S.pill[d])delete S.pill[d];else S.pill[d]=1};
 function addStart(ds){if(!ds||P(ds)>T())return notice("Kies een datum in het verleden of vandaag.");if(!S.starts.includes(ds))S.starts.push(ds);S.starts.sort()}
@@ -204,7 +210,7 @@ theme:b=>{S.theme=b.dataset.v;applyTheme()},cfo:()=>{UI.cf=1},cfx:()=>{UI.cf=0},
 pho:()=>{UI.ph=1;UI.phE=""},phx:()=>{UI.ph=0},phsave:()=>{const n=normPhone(UI.phIn||"");if(!n){UI.phE="Dat nummer lijkt niet te kloppen.";return}S.phone=n;UI.ph=0;UI.phIn=""},
 pinset:async()=>{const p=UI.pin||"";if(!/^\d{4,8}$/.test(p))return notice("Kies 4 tot 8 cijfers.");if(localStorage.getItem(LOCK)){const c=prompt("Huidige PIN:");if(!c||!await chk(c))return notice("Huidige PIN klopt niet.")}const s=crypto.getRandomValues(new Uint8Array(16));localStorage.setItem(LOCK,JSON.stringify({s:hex(s),h:await kd(p,s)}));UI.pin="";notice("PIN opgeslagen")},
 pinoff:async()=>{if(!UI.pin||!await chk(UI.pin))return notice("Typ je huidige PIN in het veld.");localStorage.removeItem(LOCK);UI.pin="";notice("PIN uitgezet")},
-unlock:async()=>{if(await chk($("pn").value)){locked=false;UI.lkE="";lkR();R()}else{UI.lkE="Onjuiste PIN.";lkR()}return false},
+unlock:async()=>{if(await chk($("pn").value)){locked=false;UI.lkE="";lkR();R();bloom()}else{UI.lkE="Onjuiste PIN.";lkR()}return false},
 bkd:()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([bkJ()],{type:"application/json"}));a.download="guzem-backup-"+tdy()+".json";document.body.appendChild(a);a.click();a.remove();S.bk=Date.now();notice("Back-up gedownload")},
 bkc:()=>{S.bk=Date.now();navigator.clipboard.writeText(bkJ()).then(()=>notice("Back-up gekopieerd"),()=>notice("Kopiëren lukte niet, gebruik Downloaden"))},
 bkr:()=>restore(UI.bkT||""),snr:b=>{const s=JSON.parse(localStorage.getItem(SNAP)||"[]")[+b.dataset.i];return s?restore(s.j):false},
@@ -217,7 +223,7 @@ function applyTheme(){const t=S.theme,r=document.documentElement;if(t==="dark"||
 applyTheme();if(window.matchMedia)try{matchMedia("(prefers-color-scheme:dark)").addEventListener("change",applyTheme)}catch(e){}
 UI.sel=tdy();if(!S.phone)UI.ph=1;
 if(startMsg)setTimeout(()=>notice(startMsg),500);
-lkR();R();save();
+lkR();R();save();if(!locked)setTimeout(bloom,400);
 setInterval(()=>{if(UI.tab==="today"&&!locked&&!UI.cf&&!UI.ph)R()},3e4);
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script></body></html>
